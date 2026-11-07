@@ -1,0 +1,25 @@
+/* Movements Page Styles */
+.movement-type-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+}
+
+.movement-type-in {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.movement-type-out {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.movement-type-adjustment {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+}

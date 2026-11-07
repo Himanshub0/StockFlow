@@ -1,0 +1,15 @@
+/* Suppliers Page Styles */
+.supplier-contact-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.supplier-contact-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.supplier-contact-info {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StockFlow — Enterprise Smart Inventory Management System. Real-time SKU tracking, stock movements, supplier management, and analytics.">
+  <meta name="theme-color" content="#111827">
+  <title>StockFlow — Smart Inventory Management System</title>
+
+  <!-- Typography: Inter Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Core Enterprise ERP Stylesheet -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/pages/dashboard.css">
+  <link rel="stylesheet" href="css/pages/products.css">
+  <link rel="stylesheet" href="css/pages/inventory.css">
+  <link rel="stylesheet" href="css/pages/movements.css">
+  <link rel="stylesheet" href="css/pages/suppliers.css">
+  <link rel="stylesheet" href="css/pages/reports.css">
+  <link rel="stylesheet" href="css/pages/settings.css">
+</head>
+<body>
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- App Shell Layout -->
+  <div class="app-container">
+    <!-- Enterprise Navigation Sidebar -->
+    <aside class="app-sidebar" id="sidebar-container"></aside>
+
+    <!-- Main Content Application Wrapper -->
+    <div class="app-wrapper">
+      <!-- Enterprise Top Navigation Bar -->
+      <header class="app-topbar" id="topbar-container"></header>
+
+      <!-- Dynamic Page Content Outlet -->
+      <main class="app-main-content" id="main-content">
+        <!-- Views rendered by Router -->
+      </main>
+    </div>
+  </div>
+
+  <!-- Bootstrap Application -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
