@@ -2,11 +2,12 @@
 .supplier-contact-cell {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .supplier-contact-name {
-  font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
+  font-weight: 700;
+  color: #FFFFFF;
 }
 
 .supplier-contact-info {

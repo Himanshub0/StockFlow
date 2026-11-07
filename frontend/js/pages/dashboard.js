@@ -310,15 +310,15 @@ function renderHealthStatusDonut(dist, total) {
   return `
     <div style="position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;">
       <svg width="140" height="140" viewBox="0 0 42 42" class="donut" style="transform: rotate(-90deg);">
-        <circle class="donut-hole" cx="21" cy="21" r="15.915" fill="#fff"></circle>
-        <circle class="donut-ring" cx="21" cy="21" r="15.915" fill="transparent" stroke="#F1F5F9" stroke-width="4.5"></circle>
-        <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#059669" stroke-width="4.5" stroke-dasharray="${inStockPct} ${100 - inStockPct}" stroke-dashoffset="0"></circle>
-        <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#D97706" stroke-width="4.5" stroke-dasharray="${lowStockPct} ${100 - lowStockPct}" stroke-dashoffset="${-inStockPct}"></circle>
-        <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#DC2626" stroke-width="4.5" stroke-dasharray="${outOfStockPct} ${100 - outOfStockPct}" stroke-dashoffset="${-(inStockPct + lowStockPct)}"></circle>
+        <circle class="donut-hole" cx="21" cy="21" r="15.915" fill="transparent"></circle>
+        <circle class="donut-ring" cx="21" cy="21" r="15.915" fill="transparent" stroke="rgba(255, 255, 255, 0.08)" stroke-width="4.5"></circle>
+        <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#10B981" stroke-width="4.5" stroke-dasharray="${inStockPct} ${100 - inStockPct}" stroke-dashoffset="0"></circle>
+        <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#F59E0B" stroke-width="4.5" stroke-dasharray="${lowStockPct} ${100 - lowStockPct}" stroke-dashoffset="${-inStockPct}"></circle>
+        <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#EF4444" stroke-width="4.5" stroke-dasharray="${outOfStockPct} ${100 - outOfStockPct}" stroke-dashoffset="${-(inStockPct + lowStockPct)}"></circle>
       </svg>
       <div style="position: absolute; text-align: center;">
-        <span style="font-size: 26px; font-weight: 800; font-family: var(--font-mono); color: var(--text-primary); letter-spacing: -0.02em;">${inStockPct}%</span>
-        <div style="font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 2px;">Optimal Ratio</div>
+        <span style="font-size: 26px; font-weight: 800; font-family: var(--font-mono); color: #FFFFFF; letter-spacing: -0.02em;">${inStockPct}%</span>
+        <div style="font-size: 9px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 2px;">Optimal Ratio</div>
       </div>
     </div>
   `;
