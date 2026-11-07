@@ -33,7 +33,9 @@
     dollarSign: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
     chevronLeft: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>`,
     chevronRight: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`,
-    collapse: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>`
+    collapse: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>`,
+    sun: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`,
+    moon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`
   };
 
   function getIcon(name) {
@@ -452,8 +454,8 @@
   const modal = new ModalManager();
 
   function renderStockBadge(status) {
-    if (status === 'IN_STOCK') return `<span class="badge badge-success"><span class="badge-dot"></span>In Stock</span>`;
-    if (status === 'LOW_STOCK') return `<span class="badge badge-warning"><span class="badge-dot"></span>Low Stock</span>`;
+    if (status === 'IN_STOCK') return `<span class="badge badge-arsenic"><span class="badge-dot"></span>In Stock</span>`;
+    if (status === 'LOW_STOCK') return `<span class="badge badge-orange"><span class="badge-dot"></span>Low Stock</span>`;
     return `<span class="badge badge-danger"><span class="badge-dot"></span>Out of Stock</span>`;
   }
 
@@ -939,7 +941,7 @@
                 <h2 class="card-title">Stock Health Breakdown</h2>
                 <span class="card-subtitle">Safety threshold distribution</span>
               </div>
-              <span class="badge badge-success">Telemetry Live</span>
+              <span class="badge badge-arsenic">Telemetry Live</span>
             </div>
             <div class="card-body">
               <div class="chart-container">
@@ -1059,13 +1061,13 @@
       <div style="position:relative;width:140px;height:140px;display:flex;align-items:center;justify-content:center;">
         <svg width="140" height="140" viewBox="0 0 42 42" class="donut" style="transform:rotate(-90deg);">
           <circle class="donut-hole" cx="21" cy="21" r="15.915" fill="transparent"></circle>
-          <circle class="donut-ring" cx="21" cy="21" r="15.915" fill="transparent" stroke="rgba(255, 255, 255, 0.08)" stroke-width="4.5"></circle>
-          <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#10B981" stroke-width="4.5" stroke-dasharray="${inStockPct} ${100 - inStockPct}" stroke-dashoffset="0"></circle>
-          <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#F59E0B" stroke-width="4.5" stroke-dasharray="${lowStockPct} ${100 - lowStockPct}" stroke-dashoffset="${-inStockPct}"></circle>
+          <circle class="donut-ring" cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--border-color)" stroke-width="4.5"></circle>
+          <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#2EB872" stroke-width="4.5" stroke-dasharray="${inStockPct} ${100 - inStockPct}" stroke-dashoffset="0"></circle>
+          <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#F97316" stroke-width="4.5" stroke-dasharray="${lowStockPct} ${100 - lowStockPct}" stroke-dashoffset="${-inStockPct}"></circle>
           <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#EF4444" stroke-width="4.5" stroke-dasharray="${outOfStockPct} ${100 - outOfStockPct}" stroke-dashoffset="${-(inStockPct + lowStockPct)}"></circle>
         </svg>
         <div style="position:absolute;text-align:center;">
-          <span style="font-size:26px;font-weight:800;font-family:var(--font-mono);color:#FFFFFF;letter-spacing:-0.02em;">${inStockPct}%</span>
+          <span style="font-size:26px;font-weight:800;font-family:var(--font-mono);color:var(--text-primary);letter-spacing:-0.02em;">${inStockPct}%</span>
           <div style="font-size:9px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.12em;margin-top:2px;">Optimal Ratio</div>
         </div>
       </div>
@@ -1323,7 +1325,7 @@
       { key: 'name', label: 'Supplier Organization', sortable: true, render: (v, r) => `<div><strong>${v}</strong><div class="mono" style="font-size:11px;color:var(--text-secondary);">${r.id}</div></div>` },
       { key: 'contactPerson', label: 'Contact Person', sortable: true, render: (v, r) => `<div>${v}<div style="font-size:12px;color:var(--text-secondary);">${r.email || '—'}</div></div>` },
       { key: 'phone', label: 'Phone', mono: true, render: v => v || '—' },
-      { key: 'status', label: 'Status', render: v => `<span class="badge ${v === 'Active' ? 'badge-success' : 'badge-neutral'}">${v}</span>` },
+      { key: 'status', label: 'Status', render: v => `<span class="badge ${v === 'Active' ? 'badge-arsenic' : 'badge-neutral'}">${v}</span>` },
       {
         key: 'actions',
         label: 'Actions',
@@ -1593,6 +1595,11 @@
           <div class="topbar-search-dropdown" id="top-dropdown"></div>
         </div>
         <div class="topbar-right">
+          <!-- Theme Toggle Button (Light/Dark Mode) -->
+          <button class="topbar-icon-btn theme-toggle-btn" id="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle theme">
+            <span class="theme-icon-sun">${getIcon('sun')}</span>
+            <span class="theme-icon-moon">${getIcon('moon')}</span>
+          </button>
           <button class="topbar-icon-btn" id="top-alerts" title="${low} Low Stock Alerts">
             ${getIcon('bell')}
             ${low > 0 ? `<span class="notification-indicator"></span>` : ''}
@@ -1622,7 +1629,7 @@
             sDrop.innerHTML = m.map(p => `
               <div class="search-result-item" data-id="${p.id}">
                 <div><div class="search-result-title">${p.name}</div><div class="search-result-sub">${p.sku} &bull; ${p.category}</div></div>
-                <div><span class="badge ${p.quantity === 0 ? 'badge-danger' : 'badge-success'}">${p.quantity} units</span></div>
+                <div><span class="badge ${p.quantity === 0 ? 'badge-danger' : (p.quantity <= p.minimumStock ? 'badge-orange' : 'badge-arsenic')}">${p.quantity} units</span></div>
               </div>
             `).join('');
             sDrop.querySelectorAll('.search-result-item').forEach(it => {
@@ -1630,6 +1637,16 @@
             });
           }
           sDrop.classList.add('open');
+        };
+      }
+
+      const themeBtn = topbarEl.querySelector('#theme-toggle-btn');
+      if (themeBtn) {
+        themeBtn.onclick = () => {
+          const curr = document.documentElement.getAttribute('data-theme') || 'dark';
+          const next = curr === 'light' ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', next);
+          try { localStorage.setItem('stockflow_theme', next); } catch(e) {}
         };
       }
 

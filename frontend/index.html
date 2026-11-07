@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-type="software" data-theme="pro">
+<html lang="en" data-type="software" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,18 @@
   <meta name="description" content="StockFlow — Enterprise Smart Inventory Management System. Real-time SKU tracking, stock movements, supplier tiers, and SAP Fiori inspired inventory operations.">
   <meta name="theme-color" content="#090D16">
   <title>StockFlow — Smart Enterprise Inventory Platform</title>
+
+  <!-- Prevent Theme Flash -->
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('stockflow_theme');
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+      } catch (e) {}
+    })();
+  </script>
 
   <!-- Typography: Plus Jakarta Sans & JetBrains Mono (Awwwards-Tier Spec) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

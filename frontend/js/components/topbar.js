@@ -45,6 +45,12 @@ export class Topbar {
       </div>
 
       <div class="topbar-right">
+        <!-- Theme Toggle Button (Light/Dark Mode) -->
+        <button class="topbar-icon-btn theme-toggle-btn" id="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle theme">
+          <span class="theme-icon-sun">${getIcon('sun')}</span>
+          <span class="theme-icon-moon">${getIcon('moon')}</span>
+        </button>
+
         <div style="position: relative;">
           <button class="topbar-icon-btn" id="notifications-btn" title="Inventory Alerts">
             ${getIcon('bell')}
@@ -53,7 +59,7 @@ export class Topbar {
           <div class="notifications-popover" id="notifications-popover">
             <div class="notifications-header">
               <span class="notifications-title">Inventory Alerts</span>
-              <span class="badge ${alertsCount > 0 ? 'badge-warning' : 'badge-success'}">${alertsCount} Active</span>
+              <span class="badge ${alertsCount > 0 ? 'badge-orange' : 'badge-arsenic'}">${alertsCount} Active</span>
             </div>
             <div class="notifications-list" id="notifications-list">
               ${this.renderNotificationsList(outOfStockItems, lowStockItems)}
@@ -170,6 +176,19 @@ export class Topbar {
         if (!this.container.contains(e.target)) {
           searchDropdown.classList.remove('open');
         }
+      });
+    }
+
+    // Theme Toggle Handler (Dark / Light)
+    const themeBtn = this.container.querySelector('#theme-toggle-btn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        try {
+          localStorage.setItem('stockflow_theme', newTheme);
+        } catch (e) {}
       });
     }
 

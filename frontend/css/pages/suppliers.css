@@ -7,7 +7,7 @@
 
 .supplier-contact-name {
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .supplier-contact-info {

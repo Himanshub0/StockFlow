@@ -85,7 +85,7 @@ export function renderSuppliers(container) {
       label: 'Status',
       sortable: true,
       render: (val) => `
-        <span class="badge ${val === 'Active' ? 'badge-success' : 'badge-neutral'}">
+        <span class="badge ${val === 'Active' ? 'badge-arsenic' : 'badge-neutral'}">
           <span class="badge-dot"></span>${val}
         </span>
       `

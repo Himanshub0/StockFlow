@@ -1,83 +1,10 @@
+/* ==========================================================================
+   StockFlow Minimal Design Tokens — Dual Theme (Dark & Light)
+   Palette: Minimal Obsidian Titanium, Arsenic Green (#2EB872), Vibrant Orange (#F97316)
+   ========================================================================== */
+
+/* Shared Universal Tokens */
 :root {
-  /* ==========================================================================
-     StockFlow Ethereal Glass Design Tokens (Awwwards / Linear Tier)
-     Archetype: OLED Obsidian Titanium & Atmospheric Ethereal Glass
-     ========================================================================== */
-
-  /* Canvas Ground */
-  --bg-canvas: #06080F;
-  --bg-canvas-elevated: #0B0F19;
-  --bg-primary: #06080F;
-  --bg-surface: #0E1424;
-  --bg-surface-elevated: #141D32;
-  --bg-hover: rgba(255, 255, 255, 0.05);
-  --bg-subtle: rgba(255, 255, 255, 0.03);
-
-  /* Double-Bezel ("Doppelrand") Precision Hardware Tokens */
-  --bezel-outer-radius: 24px;
-  --bezel-padding: 7px;
-  --bezel-inner-radius: calc(var(--bezel-outer-radius) - var(--bezel-padding)); /* 17px */
-  --bezel-shell-bg: rgba(255, 255, 255, 0.035);
-  --bezel-shell-border: rgba(255, 255, 255, 0.08);
-  --bezel-shell-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.05);
-  --bezel-core-bg: rgba(14, 20, 34, 0.82);
-  --bezel-core-border: rgba(255, 255, 255, 0.06);
-  --bezel-core-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.16), 0 4px 20px rgba(0, 0, 0, 0.3);
-
-  /* Sidebar Obsidian Palette */
-  --bg-sidebar: #05070D;
-  --bg-sidebar-elevated: #090E1A;
-  --bg-sidebar-hover: rgba(255, 255, 255, 0.06);
-  --bg-sidebar-active: rgba(59, 130, 246, 0.18);
-  --border-sidebar: rgba(255, 255, 255, 0.07);
-  --text-sidebar: #94A3B8;
-  --text-sidebar-muted: #64748B;
-  --text-sidebar-active: #F8FAFC;
-
-  /* Luminous High-Contrast Typography Palette */
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --text-inverse: #06080F;
-  --text-brand: #60A5FA;
-
-  /* Borders & Hairline Dividers */
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-focus: #3B82F6;
-  --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.25);
-
-  /* Electric Accents & Luminous Mesh */
-  --accent-primary: #3B82F6;
-  --accent-primary-gradient: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
-  --accent-primary-hover: #60A5FA;
-  --accent-primary-subtle: rgba(59, 130, 246, 0.14);
-  --accent-glow: 0 0 30px rgba(59, 130, 246, 0.35);
-
-  /* Semantic Status Indicators (Glowing Neon Micro-Pills) */
-  --color-success: #10B981;
-  --color-success-bg: rgba(16, 185, 129, 0.12);
-  --color-success-border: rgba(16, 185, 129, 0.28);
-  --color-success-text: #34D399;
-  --color-success-glow: 0 0 16px rgba(16, 185, 129, 0.45);
-
-  --color-warning: #F59E0B;
-  --color-warning-bg: rgba(245, 158, 11, 0.12);
-  --color-warning-border: rgba(245, 158, 11, 0.28);
-  --color-warning-text: #FBBF24;
-  --color-warning-glow: 0 0 16px rgba(245, 158, 11, 0.45);
-
-  --color-danger: #EF4444;
-  --color-danger-bg: rgba(239, 68, 68, 0.12);
-  --color-danger-border: rgba(239, 68, 68, 0.28);
-  --color-danger-text: #F87171;
-  --color-danger-glow: 0 0 16px rgba(239, 68, 68, 0.45);
-
-  --color-info: #06B6D4;
-  --color-info-bg: rgba(6, 182, 212, 0.12);
-  --color-info-border: rgba(6, 182, 212, 0.28);
-  --color-info-text: #22D3EE;
-
   /* Typography Scale */
   --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -109,10 +36,10 @@
   --spacing-10: 2.5rem;  /* 40px */
   --spacing-12: 3rem;    /* 48px */
 
-  /* Structural Dimensions */
-  --sidebar-width: 260px;
-  --sidebar-collapsed-width: 72px;
-  --topbar-height: 64px;
+  /* Dimensions */
+  --sidebar-width: 256px;
+  --sidebar-collapsed-width: 68px;
+  --topbar-height: 60px;
 
   /* Radii */
   --radius-xs: 4px;
@@ -123,21 +50,18 @@
   --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  /* Shadows with Ambient Glow */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 16px 40px -8px rgba(0, 0, 0, 0.65);
-  --shadow-xl: 0 24px 60px -12px rgba(0, 0, 0, 0.8);
-  --shadow-modal: 0 32px 80px -16px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  /* Double-Bezel Dimensions */
+  --bezel-outer-radius: 20px;
+  --bezel-padding: 6px;
+  --bezel-inner-radius: calc(var(--bezel-outer-radius) - var(--bezel-padding)); /* 14px */
 
-  /* Fluid Spring Dynamics (Awwwards-Tier Spec) */
+  /* Fluid Transitions */
   --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
-  --transition-fast: 200ms cubic-bezier(0.32, 0.72, 0, 1);
-  --transition-normal: 350ms cubic-bezier(0.32, 0.72, 0, 1);
-  --transition-spring: 450ms cubic-bezier(0.32, 0.72, 0, 1);
-  --transition-slow: 700ms cubic-bezier(0.32, 0.72, 0, 1);
+  --transition-fast: 180ms cubic-bezier(0.32, 0.72, 0, 1);
+  --transition-normal: 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  --transition-spring: 400ms cubic-bezier(0.32, 0.72, 0, 1);
 
-  /* Layering */
+  /* Systemic Layering */
   --z-base: 1;
   --z-card: 10;
   --z-island-topbar: 40;
@@ -146,4 +70,209 @@
   --z-overlay: 90;
   --z-modal: 100;
   --z-toast: 110;
+}
+
+/* ==========================================================================
+   DARK THEME (Default: Minimal Obsidian Titanium)
+   ========================================================================== */
+:root,
+:root[data-theme="dark"] {
+  /* Canvas Ground */
+  --bg-canvas: #080C14;
+  --bg-canvas-elevated: #0E1320;
+  --bg-primary: #080C14;
+  --bg-surface: #0F1626;
+  --bg-surface-elevated: #151E32;
+  --bg-hover: rgba(255, 255, 255, 0.05);
+  --bg-subtle: rgba(255, 255, 255, 0.025);
+
+  /* Double-Bezel Hardware Tokens */
+  --bezel-shell-bg: rgba(255, 255, 255, 0.03);
+  --bezel-shell-border: rgba(255, 255, 255, 0.07);
+  --bezel-shell-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7), 0 0 1px 1px rgba(255, 255, 255, 0.04);
+  --bezel-core-bg: #0F1626;
+  --bezel-core-border: rgba(255, 255, 255, 0.06);
+  --bezel-core-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+
+  /* Sidebar Obsidian Palette */
+  --bg-sidebar: #05080E;
+  --bg-sidebar-elevated: #0A0F1A;
+  --bg-sidebar-hover: rgba(255, 255, 255, 0.05);
+  --bg-sidebar-active: rgba(46, 184, 114, 0.16);
+  --border-sidebar: rgba(255, 255, 255, 0.06);
+  --text-sidebar: #94A3B8;
+  --text-sidebar-muted: #64748B;
+  --text-sidebar-active: #F8FAFC;
+
+  /* Typography Palette */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-inverse: #080C14;
+  --text-brand: #34D399;
+
+  /* Borders & Dividers */
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-focus: #2EB872;
+  --focus-ring: 0 0 0 3px rgba(46, 184, 114, 0.25);
+
+  /* Floating Topbar */
+  --topbar-bg: rgba(15, 22, 38, 0.82);
+  --topbar-border: rgba(255, 255, 255, 0.09);
+  --topbar-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+
+  /* Signature Color 1: Arsenic Green (#2EB872) */
+  --color-arsenic: #2EB872;
+  --color-arsenic-bg: rgba(46, 184, 114, 0.12);
+  --color-arsenic-border: rgba(46, 184, 114, 0.3);
+  --color-arsenic-text: #4ADE80;
+  --color-arsenic-glow: 0 0 12px rgba(46, 184, 114, 0.45);
+
+  /* Signature Color 2: Vibrant Orange (#F97316) */
+  --color-orange: #F97316;
+  --color-orange-bg: rgba(249, 115, 22, 0.14);
+  --color-orange-border: rgba(249, 115, 22, 0.35);
+  --color-orange-text: #FB923C;
+  --color-orange-glow: 0 0 12px rgba(249, 115, 22, 0.45);
+
+  /* Primary Brand Button (Arsenic Green Gradient) */
+  --accent-primary: #2EB872;
+  --accent-primary-gradient: linear-gradient(135deg, #2EB872 0%, #16A34A 100%);
+  --accent-primary-hover: #34D399;
+  --accent-primary-subtle: rgba(46, 184, 114, 0.12);
+  --accent-glow: 0 0 24px rgba(46, 184, 114, 0.35);
+
+  /* Semantic Status Colors */
+  --color-success: #2EB872;
+  --color-success-bg: rgba(46, 184, 114, 0.12);
+  --color-success-border: rgba(46, 184, 114, 0.3);
+  --color-success-text: #4ADE80;
+  --color-success-glow: 0 0 12px rgba(46, 184, 114, 0.4);
+
+  --color-warning: #F97316;
+  --color-warning-bg: rgba(249, 115, 22, 0.14);
+  --color-warning-border: rgba(249, 115, 22, 0.35);
+  --color-warning-text: #FB923C;
+  --color-warning-glow: 0 0 12px rgba(249, 115, 22, 0.4);
+
+  --color-danger: #EF4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.12);
+  --color-danger-border: rgba(239, 68, 68, 0.28);
+  --color-danger-text: #F87171;
+  --color-danger-glow: 0 0 12px rgba(239, 68, 68, 0.4);
+
+  --color-info: #0EA5E9;
+  --color-info-bg: rgba(14, 165, 233, 0.12);
+  --color-info-border: rgba(14, 165, 233, 0.28);
+  --color-info-text: #38BDF8;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 40px -8px rgba(0, 0, 0, 0.65);
+  --shadow-xl: 0 24px 60px -12px rgba(0, 0, 0, 0.8);
+  --shadow-modal: 0 32px 80px -16px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   LIGHT THEME (Minimal Crisp Scandinavian Porcelain)
+   ========================================================================== */
+:root[data-theme="light"] {
+  /* Canvas Ground */
+  --bg-canvas: #F8FAFC;
+  --bg-canvas-elevated: #FFFFFF;
+  --bg-primary: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #F1F5F9;
+  --bg-hover: #F1F5F9;
+  --bg-subtle: #F8FAFC;
+
+  /* Double-Bezel Hardware Tokens */
+  --bezel-shell-bg: #F1F5F9;
+  --bezel-shell-border: #E2E8F0;
+  --bezel-shell-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
+  --bezel-core-bg: #FFFFFF;
+  --bezel-core-border: #E2E8F0;
+  --bezel-core-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.95), 0 1px 2px rgba(0, 0, 0, 0.03);
+
+  /* Sidebar Palette (Clean Titanium Slate) */
+  --bg-sidebar: #0F172A;
+  --bg-sidebar-elevated: #1E293B;
+  --bg-sidebar-hover: rgba(255, 255, 255, 0.06);
+  --bg-sidebar-active: rgba(46, 184, 114, 0.16);
+  --border-sidebar: rgba(255, 255, 255, 0.08);
+  --text-sidebar: #94A3B8;
+  --text-sidebar-muted: #64748B;
+  --text-sidebar-active: #F8FAFC;
+
+  /* Typography Palette */
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --text-inverse: #FFFFFF;
+  --text-brand: #15803D;
+
+  /* Borders & Dividers */
+  --border-color: #E2E8F0;
+  --border-subtle: #F1F5F9;
+  --border-focus: #16A34A;
+  --focus-ring: 0 0 0 3px rgba(22, 163, 74, 0.18);
+
+  /* Floating Topbar */
+  --topbar-bg: rgba(255, 255, 255, 0.88);
+  --topbar-border: rgba(226, 232, 240, 0.9);
+  --topbar-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+
+  /* Signature Color 1: Arsenic Green (#16A34A) */
+  --color-arsenic: #16A34A;
+  --color-arsenic-bg: #DCFCE7;
+  --color-arsenic-border: #86EFAC;
+  --color-arsenic-text: #15803D;
+  --color-arsenic-glow: 0 0 8px rgba(22, 163, 74, 0.25);
+
+  /* Signature Color 2: Vibrant Orange (#EA580C) */
+  --color-orange: #EA580C;
+  --color-orange-bg: #FFEDD5;
+  --color-orange-border: #FDBA74;
+  --color-orange-text: #C2410C;
+  --color-orange-glow: 0 0 8px rgba(234, 88, 12, 0.25);
+
+  /* Primary Brand Button (Arsenic Green) */
+  --accent-primary: #16A34A;
+  --accent-primary-gradient: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+  --accent-primary-hover: #15803D;
+  --accent-primary-subtle: #DCFCE7;
+  --accent-glow: 0 0 16px rgba(22, 163, 74, 0.25);
+
+  /* Semantic Status Colors */
+  --color-success: #16A34A;
+  --color-success-bg: #DCFCE7;
+  --color-success-border: #86EFAC;
+  --color-success-text: #15803D;
+  --color-success-glow: 0 0 8px rgba(22, 163, 74, 0.25);
+
+  --color-warning: #EA580C;
+  --color-warning-bg: #FFEDD5;
+  --color-warning-border: #FDBA74;
+  --color-warning-text: #C2410C;
+  --color-warning-glow: 0 0 8px rgba(234, 88, 12, 0.25);
+
+  --color-danger: #DC2626;
+  --color-danger-bg: #FEE2E2;
+  --color-danger-border: #FCA5A5;
+  --color-danger-text: #B91C1C;
+  --color-danger-glow: 0 0 8px rgba(220, 38, 38, 0.25);
+
+  --color-info: #0284C7;
+  --color-info-bg: #E0F2FE;
+  --color-info-border: #BAE6FD;
+  --color-info-text: #0369A1;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 12px 28px -6px rgba(15, 23, 42, 0.08);
+  --shadow-xl: 0 20px 48px -10px rgba(15, 23, 42, 0.12);
+  --shadow-modal: 0 28px 60px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
 }

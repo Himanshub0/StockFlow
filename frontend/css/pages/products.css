@@ -13,7 +13,7 @@
 
 .product-name-title {
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .product-name-desc {

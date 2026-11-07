@@ -24,7 +24,7 @@
 .page-title {
   font-size: var(--font-size-2xl);
   font-weight: 800;
-  color: #FFFFFF;
+  color: var(--text-primary);
   letter-spacing: -0.03em;
   line-height: 1.2;
 }
@@ -103,7 +103,7 @@
 .metric-value {
   font-size: 1.875rem;
   font-weight: 800;
-  color: #FFFFFF;
+  color: var(--text-primary);
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   line-height: 1.15;
