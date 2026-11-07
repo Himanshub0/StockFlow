@@ -46,3 +46,8 @@ Thumbs.db
 instance/*.db
 !instance/stockflow.db
 !instance/.gitkeep
+
+# Agent / Skills tooling
+.agents/
+skills-lock.json
+
