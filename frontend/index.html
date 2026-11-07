@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-type="software" data-theme="pro">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="StockFlow — Enterprise Smart Inventory Management System. Real-time SKU tracking, stock movements, supplier management, and analytics.">
-  <meta name="theme-color" content="#111827">
-  <title>StockFlow — Smart Inventory Management System</title>
+  <meta name="page-type" content="software">
+  <meta name="site-kind" content="software">
+  <meta name="description" content="StockFlow — Enterprise Smart Inventory Management System. Real-time SKU tracking, stock movements, supplier tiers, and SAP Fiori inspired inventory operations.">
+  <meta name="theme-color" content="#090D16">
+  <title>StockFlow — Smart Enterprise Inventory Platform</title>
 
-  <!-- Typography: Inter Sans -->
+  <!-- Typography: Plus Jakarta Sans & JetBrains Mono (Awwwards-Tier Spec) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Core Enterprise ERP Stylesheet -->
+  <!-- Core Enterprise ERP Stylesheet Hierarchy -->
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/pages/dashboard.css">
   <link rel="stylesheet" href="css/pages/products.css">
@@ -22,22 +24,27 @@
   <link rel="stylesheet" href="css/pages/reports.css">
   <link rel="stylesheet" href="css/pages/settings.css">
 </head>
-<body>
+<body class="antialiased">
+  <!-- Subtle Ambient Glow Mesh -->
+  <div class="ambient-glow" aria-hidden="true"></div>
+
   <!-- Mobile Sidebar Backdrop Overlay -->
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <!-- App Shell Layout -->
   <div class="app-container">
-    <!-- Enterprise Navigation Sidebar -->
-    <aside class="app-sidebar" id="sidebar-container"></aside>
+    <!-- Obsidian Titanium Sidebar -->
+    <aside class="app-sidebar" id="sidebar-container" aria-label="Primary Navigation"></aside>
 
     <!-- Main Content Application Wrapper -->
     <div class="app-wrapper">
-      <!-- Enterprise Top Navigation Bar -->
-      <header class="app-topbar" id="topbar-container"></header>
+      <!-- Floating Glass Island Top Navigation Bar -->
+      <header class="app-topbar-wrapper">
+        <div class="app-topbar" id="topbar-container"></div>
+      </header>
 
       <!-- Dynamic Page Content Outlet -->
-      <main class="app-main-content" id="main-content">
+      <main class="app-main-content" id="main-content" role="main">
         <!-- Initial view will be rendered automatically by router -->
       </main>
     </div>

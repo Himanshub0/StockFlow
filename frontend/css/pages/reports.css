@@ -1,4 +1,4 @@
-/* Reports Page Styles */
+/* Reports Page Styles (Double-Bezel) */
 .reports-summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -7,10 +7,26 @@
 }
 
 .report-stat-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-4);
+  background: var(--bezel-shell-bg);
+  border: 1px solid var(--bezel-shell-border);
+  border-radius: var(--bezel-outer-radius);
+  padding: var(--bezel-padding);
+  box-shadow: var(--bezel-shell-shadow);
+  transition: transform var(--transition-spring), box-shadow var(--transition-spring);
+}
+
+.report-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.report-stat-card-inner {
+  background: var(--bezel-core-bg);
+  border: 1px solid var(--bezel-core-border);
+  border-radius: var(--bezel-inner-radius);
+  box-shadow: var(--bezel-core-shadow);
+  padding: 18px 20px;
+  height: 100%;
 }
 
 .report-stat-header {
@@ -24,7 +40,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-2) 0;
+  padding: 10px 0;
   border-bottom: 1px solid var(--border-subtle);
   font-size: var(--font-size-sm);
 }

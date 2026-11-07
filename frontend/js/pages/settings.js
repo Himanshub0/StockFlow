@@ -13,11 +13,13 @@ export function renderSettings(container) {
   container.innerHTML = `
     <div class="page-header">
       <div class="page-title-group">
+        <span class="eyebrow-tag eyebrow-tag-blue">${getIcon('settings')} System Configuration</span>
         <h1 class="page-title">System Settings & Preferences</h1>
         <p class="page-description">Configure regional currency, inventory safety thresholds, and mock dataset state.</p>
       </div>
       <div class="page-actions">
-        <button class="btn btn-primary" id="save-settings-btn">
+        <button class="btn-pill btn-pill-primary" id="save-settings-btn">
+          <span class="btn-icon-bubble">${getIcon('check')}</span>
           Save Preferences
         </button>
       </div>

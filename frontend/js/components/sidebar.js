@@ -85,8 +85,11 @@ export class Sidebar {
       </nav>
 
       <div class="sidebar-footer">
-        <div style="font-weight: 600; color: #E2E8F0; margin-bottom: 2px;">StockFlow v1.0.0</div>
-        <div>Semester 3 AIML Project</div>
+        <div style="display: flex; align-items: center; gap: 6px; font-weight: 700; color: #F8FAFC; margin-bottom: 2px;">
+          <span style="width: 6px; height: 6px; border-radius: 9999px; background: #10B981; box-shadow: 0 0 8px #10B981;"></span>
+          StockFlow v1.0.0
+        </div>
+        <div style="font-size: 10px; color: #64748B;">Enterprise Edition &bull; Sem 3 AIML</div>
       </div>
     `;
 

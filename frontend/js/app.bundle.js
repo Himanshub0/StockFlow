@@ -507,7 +507,8 @@
 
       let html = `
         <div class="card">
-          <div class="table-responsive">
+          <div class="card-inner">
+            <div class="table-responsive">
             <table class="data-table">
               <thead>
                 <tr>
@@ -556,6 +557,7 @@
               <span style="font-weight:500;">Page ${this.currentPage} of ${totalPages}</span>
               <button class="btn btn-secondary btn-sm next-page" ${this.currentPage >= totalPages ? 'disabled' : ''}>Next ${getIcon('chevronRight')}</button>
             </div>
+          </div>
           </div>
         </div>
       `;
@@ -781,165 +783,252 @@
     const recent = state.movements.slice(0, 6);
 
     c.innerHTML = `
+      <!-- Page Header with Microscopic Eyebrow and Island Action Pills -->
       <div class="page-header">
         <div class="page-title-group">
+          <span class="eyebrow-tag eyebrow-tag-blue">
+            ${getIcon('boxes')} Real-Time Inventory Mesh
+          </span>
           <h1 class="page-title">Enterprise Dashboard</h1>
-          <p class="page-description">Real-time stock valuation, inventory health, and operational activity.</p>
+          <p class="page-description">Automated valuation, multi-tier SKU tracking, and inventory health telemetry.</p>
         </div>
         <div class="page-actions">
-          <button class="btn btn-secondary" id="dash-in">${getIcon('arrowDownLeft')} Record Stock In</button>
-          <button class="btn btn-secondary" id="dash-out">${getIcon('arrowUpRight')} Record Stock Out</button>
-          <button class="btn btn-primary" id="dash-add">${getIcon('plus')} Add Product</button>
+          <button class="btn-pill btn-pill-secondary" id="dash-in">
+            <span class="btn-icon-bubble">${getIcon('arrowDownLeft')}</span>
+            Record Stock In
+          </button>
+          <button class="btn-pill btn-pill-secondary" id="dash-out">
+            <span class="btn-icon-bubble">${getIcon('arrowUpRight')}</span>
+            Record Stock Out
+          </button>
+          <button class="btn-pill btn-pill-primary" id="dash-add">
+            <span class="btn-icon-bubble">${getIcon('plus')}</span>
+            Add Product
+          </button>
         </div>
       </div>
 
+      <!-- Quick Action Cards Bar -->
+      <div class="quick-actions-bar">
+        <div class="quick-action-card" id="qa-add-product">
+          <div class="quick-action-icon">${getIcon('package')}</div>
+          <div>
+            <div class="quick-action-title">Add Product</div>
+            <div class="quick-action-desc">Register new catalog SKU & minimum threshold</div>
+          </div>
+        </div>
+        <div class="quick-action-card" id="qa-stock-in">
+          <div class="quick-action-icon" style="background-color: var(--color-success-bg); color: var(--color-success);">${getIcon('arrowDownLeft')}</div>
+          <div>
+            <div class="quick-action-title">Receive Inventory</div>
+            <div class="quick-action-desc">Log vendor shipments & stock inbound</div>
+          </div>
+        </div>
+        <div class="quick-action-card" id="qa-stock-out">
+          <div class="quick-action-icon" style="background-color: var(--color-danger-bg); color: var(--color-danger);">${getIcon('arrowUpRight')}</div>
+          <div>
+            <div class="quick-action-title">Dispatch Stock</div>
+            <div class="quick-action-desc">Fulfill customer orders & internal usage</div>
+          </div>
+        </div>
+        <div class="quick-action-card" id="qa-view-inventory">
+          <div class="quick-action-icon" style="background-color: var(--color-warning-bg); color: var(--color-warning);">${getIcon('alertTriangle')}</div>
+          <div>
+            <div class="quick-action-title">${lowItems.length + outItems.length} Reorder Alerts</div>
+            <div class="quick-action-desc">Review safety thresholds & shortages</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Summary Metrics Grid (Double-Bezel Architecture) -->
       <div class="metrics-grid">
         <div class="metric-card">
-          <div class="metric-info">
-            <span class="metric-label">Total Catalog SKUs</span>
-            <span class="metric-value">${formatNumber(totalProd)}</span>
-            <span class="metric-meta">Active product lines</span>
-          </div>
-          <div class="metric-icon-box metric-icon-blue">${getIcon('package')}</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-info">
-            <span class="metric-label">Total Inventory Units</span>
-            <span class="metric-value">${formatNumber(totalUnits)}</span>
-            <span class="metric-meta">Across all categories</span>
-          </div>
-          <div class="metric-icon-box metric-icon-purple">${getIcon('boxes')}</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-info">
-            <span class="metric-label">Total Inventory Value</span>
-            <span class="metric-value">${formatCurrency(invVal, state.settings.currency)}</span>
-            <span class="metric-meta">Valued at unit cost</span>
-          </div>
-          <div class="metric-icon-box metric-icon-green">${getIcon('dollarSign')}</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-info">
-            <span class="metric-label">Low Stock Alerts</span>
-            <span class="metric-value" style="color:var(--color-warning);">${formatNumber(lowItems.length)}</span>
-            <span class="metric-meta">Below minimum safety limit</span>
-          </div>
-          <div class="metric-icon-box metric-icon-amber">${getIcon('alertTriangle')}</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-info">
-            <span class="metric-label">Out of Stock</span>
-            <span class="metric-value" style="color:var(--color-danger);">${formatNumber(outItems.length)}</span>
-            <span class="metric-meta">0 units available</span>
-          </div>
-          <div class="metric-icon-box metric-icon-red">${getIcon('x')}</div>
-        </div>
-      </div>
-
-      <div class="dashboard-grid">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              <h2 class="card-title">Inventory Valuation by Category</h2>
-              <span class="card-subtitle">Distribution of stock capital</span>
+          <div class="metric-card-inner">
+            <div class="metric-info">
+              <span class="metric-label">Catalog SKUs</span>
+              <span class="metric-value">${formatNumber(totalProd)}</span>
+              <span class="metric-meta">Active product lines</span>
             </div>
-          </div>
-          <div class="card-body">
-            <div style="display:flex;flex-direction:column;gap:14px;">
-              ${Object.entries(catDist).map(([cat, d]) => {
-                const pct = invVal > 0 ? ((d.value / invVal) * 100).toFixed(1) : 0;
-                return `
-                  <div>
-                    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
-                      <span style="font-weight:500;">${cat}</span>
-                      <span class="mono" style="color:var(--text-secondary);">${formatCurrency(d.value, state.settings.currency)} (${pct}%) &bull; ${d.units} units</span>
-                    </div>
-                    <div style="height:8px;background:var(--bg-subtle);border-radius:9999px;overflow:hidden;">
-                      <div style="height:100%;width:${pct}%;background:var(--accent-primary);border-radius:9999px;"></div>
-                    </div>
-                  </div>
-                `;
-              }).join('')}
-            </div>
+            <div class="metric-icon-box metric-icon-blue">${getIcon('package')}</div>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              <h2 class="card-title">Stock Health Breakdown</h2>
-              <span class="card-subtitle">Safety threshold distribution</span>
+        <div class="metric-card">
+          <div class="metric-card-inner">
+            <div class="metric-info">
+              <span class="metric-label">Total Units</span>
+              <span class="metric-value">${formatNumber(totalUnits)}</span>
+              <span class="metric-meta">Across all categories</span>
             </div>
+            <div class="metric-icon-box metric-icon-purple">${getIcon('boxes')}</div>
           </div>
-          <div class="card-body" style="text-align:center;">
-            <div style="padding:24px 0;">
-              <div style="font-size:32px;font-weight:700;color:var(--color-success);">${((statusDist.IN_STOCK / totalProd) * 100).toFixed(0)}%</div>
-              <div style="font-size:12px;color:var(--text-secondary);text-transform:uppercase;font-weight:600;">Optimal Health Ratio</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-inner">
+            <div class="metric-info">
+              <span class="metric-label">Valuation</span>
+              <span class="metric-value">${formatCurrency(invVal, state.settings.currency)}</span>
+              <span class="metric-meta">Valued at unit cost</span>
             </div>
-            <div style="display:flex;justify-content:space-around;font-size:12px;border-top:1px solid var(--border-subtle);padding-top:14px;">
-              <div><span style="color:var(--color-success);font-weight:700;">${statusDist.IN_STOCK}</span> In Stock</div>
-              <div><span style="color:var(--color-warning);font-weight:700;">${statusDist.LOW_STOCK}</span> Low Stock</div>
-              <div><span style="color:var(--color-danger);font-weight:700;">${statusDist.OUT_OF_STOCK}</span> Out of Stock</div>
+            <div class="metric-icon-box metric-icon-green">${getIcon('dollarSign')}</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-inner">
+            <div class="metric-info">
+              <span class="metric-label">Low Stock</span>
+              <span class="metric-value" style="color:var(--color-warning);">${formatNumber(lowItems.length)}</span>
+              <span class="metric-meta">Below safety limit</span>
             </div>
+            <div class="metric-icon-box metric-icon-amber">${getIcon('alertTriangle')}</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-inner">
+            <div class="metric-info">
+              <span class="metric-label">Out of Stock</span>
+              <span class="metric-value" style="color:var(--color-danger);">${formatNumber(outItems.length)}</span>
+              <span class="metric-meta">0 units available</span>
+            </div>
+            <div class="metric-icon-box metric-icon-red">${getIcon('x')}</div>
           </div>
         </div>
       </div>
 
+      <!-- Charts and Overview Section (Double-Bezel) -->
       <div class="dashboard-grid">
+        <!-- Category Valuation Breakdown -->
         <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              <h2 class="card-title">Reorder Attention List</h2>
-              <span class="card-subtitle">Items at or below safety limit</span>
+          <div class="card-inner">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h2 class="card-title">Inventory Valuation by Category</h2>
+                <span class="card-subtitle">Distribution of stock capital and item volume</span>
+              </div>
+              <span class="badge badge-neutral">${Object.keys(catDist).length} Categories</span>
             </div>
-            <a href="#/inventory" class="btn btn-secondary btn-sm">View in Inventory</a>
-          </div>
-          <div class="table-responsive">
-            <table class="data-table">
-              <thead>
-                <tr><th>Product / SKU</th><th>Category</th><th class="num">Current</th><th class="num">Target</th><th>Status</th></tr>
-              </thead>
-              <tbody>
-                ${[...outItems, ...lowItems].slice(0, 5).map(p => `
-                  <tr>
-                    <td><strong>${p.name}</strong><div class="mono" style="font-size:11px;color:var(--text-secondary);">${p.sku}</div></td>
-                    <td>${p.category}</td>
-                    <td class="num" style="font-weight:600;">${p.quantity}</td>
-                    <td class="num mono">${p.minimumStock}</td>
-                    <td>${renderStockBadge(state.getStockStatus(p))}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              <h2 class="card-title">Recent Stock Activity</h2>
-              <span class="card-subtitle">Latest movements</span>
-            </div>
-            <a href="#/movements" class="btn btn-secondary btn-sm">Audit Log</a>
-          </div>
-          <div class="card-body">
-            <div class="activity-list">
-              ${recent.map(m => {
-                const prod = state.products.find(p => p.id === m.productId) || { name: 'Product' };
-                const sign = m.type === 'IN' ? '+' : (m.type === 'OUT' ? '-' : '');
-                return `
-                  <div class="activity-item">
-                    <div class="activity-left">
-                      <div class="activity-badge ${m.type.toLowerCase()}">${m.type}</div>
-                      <div>
-                        <div class="activity-title">${prod.name}</div>
-                        <div class="activity-meta">${formatDate(m.date)} &bull; Ref: ${m.reference}</div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:18px;">
+                ${Object.entries(catDist).map(([cat, d]) => {
+                  const pct = invVal > 0 ? ((d.value / invVal) * 100).toFixed(1) : 0;
+                  return `
+                    <div class="category-stat-row">
+                      <div class="category-stat-header">
+                        <span class="category-stat-title">${cat}</span>
+                        <span class="category-stat-meta">${formatCurrency(d.value, state.settings.currency)} &bull; ${pct}% &bull; ${d.units} units</span>
+                      </div>
+                      <div class="category-progress-track">
+                        <div class="category-progress-fill" style="width:${pct}%;"></div>
                       </div>
                     </div>
-                    <div class="activity-qty ${m.type.toLowerCase()}">${sign}${Math.abs(m.quantity)}</div>
-                  </div>
-                `;
-              }).join('')}
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stock Health Status Breakdown -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h2 class="card-title">Stock Health Breakdown</h2>
+                <span class="card-subtitle">Safety threshold distribution</span>
+              </div>
+              <span class="badge badge-success">Telemetry Live</span>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                ${renderHealthDonut(statusDist, totalProd)}
+              </div>
+              <div class="chart-legend">
+                <div class="legend-item">
+                  <span class="legend-color-box" style="background:var(--color-success);"></span>
+                  <span>In Stock (${statusDist.IN_STOCK})</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color-box" style="background:var(--color-warning);"></span>
+                  <span>Low Stock (${statusDist.LOW_STOCK})</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color-box" style="background:var(--color-danger);"></span>
+                  <span>Out of Stock (${statusDist.OUT_OF_STOCK})</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Grids: Low-Stock Attention & Recent Activity -->
+      <div class="dashboard-grid">
+        <!-- Low Stock Attention Table (Double-Bezel) -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h2 class="card-title">Products Requiring Attention</h2>
+                <span class="card-subtitle">Items at or below safety limit</span>
+              </div>
+              <a href="#/inventory" class="btn btn-secondary btn-sm">View in Inventory</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Product / SKU</th><th>Category</th><th class="num">Current</th><th class="num">Target</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  ${[...outItems, ...lowItems].slice(0, 5).map(p => `
+                    <tr>
+                      <td><strong>${p.name}</strong><div class="mono" style="font-size:11px;color:var(--text-secondary);">${p.sku}</div></td>
+                      <td>${p.category}</td>
+                      <td class="num" style="font-weight:700;">${p.quantity}</td>
+                      <td class="num mono">${p.minimumStock}</td>
+                      <td>${renderStockBadge(state.getStockStatus(p))}</td>
+                    </tr>
+                  `).join('')}
+                  ${(outItems.length + lowItems.length) === 0 ? `
+                    <tr><td colspan="5" style="text-align:center;color:var(--text-secondary);padding:32px;">All items are well stocked above safety limits.</td></tr>
+                  ` : ''}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Stock Activity (Double-Bezel) -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h2 class="card-title">Recent Stock Activity</h2>
+                <span class="card-subtitle">Latest fulfillment and receipts</span>
+              </div>
+              <a href="#/movements" class="btn btn-secondary btn-sm">Audit Log</a>
+            </div>
+            <div class="card-body">
+              <div class="activity-list">
+                ${recent.map(m => {
+                  const prod = state.products.find(p => p.id === m.productId) || { name: 'Product' };
+                  const sign = m.type === 'IN' ? '+' : (m.type === 'OUT' ? '-' : '');
+                  return `
+                    <div class="activity-item">
+                      <div class="activity-left">
+                        <div class="activity-badge ${m.type.toLowerCase()}">${m.type}</div>
+                        <div>
+                          <div class="activity-title">${prod.name}</div>
+                          <div class="activity-meta">${formatDate(m.date)} &bull; Ref: ${m.reference}</div>
+                        </div>
+                      </div>
+                      <div class="activity-qty ${m.type.toLowerCase()}">${sign}${Math.abs(m.quantity)}</div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
             </div>
           </div>
         </div>
@@ -949,17 +1038,53 @@
     c.querySelector('#dash-in').onclick = () => openMovementForm('IN', null, () => renderDashboard(c));
     c.querySelector('#dash-out').onclick = () => openMovementForm('OUT', null, () => renderDashboard(c));
     c.querySelector('#dash-add').onclick = () => openProductForm(null, () => renderDashboard(c));
+
+    const qaAdd = c.querySelector('#qa-add-product');
+    const qaIn = c.querySelector('#qa-stock-in');
+    const qaOut = c.querySelector('#qa-stock-out');
+    const qaInv = c.querySelector('#qa-view-inventory');
+    if (qaAdd) qaAdd.onclick = () => openProductForm(null, () => renderDashboard(c));
+    if (qaIn) qaIn.onclick = () => openMovementForm('IN', null, () => renderDashboard(c));
+    if (qaOut) qaOut.onclick = () => openMovementForm('OUT', null, () => renderDashboard(c));
+    if (qaInv) qaInv.onclick = () => { window.location.hash = '#/inventory'; };
+  }
+
+  function renderHealthDonut(dist, total) {
+    if (total === 0) return '<div>No inventory data available</div>';
+    const inStockPct = Math.round((dist.IN_STOCK / total) * 100);
+    const lowStockPct = Math.round((dist.LOW_STOCK / total) * 100);
+    const outOfStockPct = 100 - inStockPct - lowStockPct;
+
+    return `
+      <div style="position:relative;width:140px;height:140px;display:flex;align-items:center;justify-content:center;">
+        <svg width="140" height="140" viewBox="0 0 42 42" class="donut" style="transform:rotate(-90deg);">
+          <circle class="donut-hole" cx="21" cy="21" r="15.915" fill="#fff"></circle>
+          <circle class="donut-ring" cx="21" cy="21" r="15.915" fill="transparent" stroke="#F1F5F9" stroke-width="4.5"></circle>
+          <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#059669" stroke-width="4.5" stroke-dasharray="${inStockPct} ${100 - inStockPct}" stroke-dashoffset="0"></circle>
+          <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#D97706" stroke-width="4.5" stroke-dasharray="${lowStockPct} ${100 - lowStockPct}" stroke-dashoffset="${-inStockPct}"></circle>
+          <circle class="donut-segment" cx="21" cy="21" r="15.915" fill="transparent" stroke="#DC2626" stroke-width="4.5" stroke-dasharray="${outOfStockPct} ${100 - outOfStockPct}" stroke-dashoffset="${-(inStockPct + lowStockPct)}"></circle>
+        </svg>
+        <div style="position:absolute;text-align:center;">
+          <span style="font-size:26px;font-weight:800;font-family:var(--font-mono);color:var(--text-primary);letter-spacing:-0.02em;">${inStockPct}%</span>
+          <div style="font-size:9px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.12em;margin-top:2px;">Optimal Ratio</div>
+        </div>
+      </div>
+    `;
   }
 
   function renderProducts(c) {
     c.innerHTML = `
       <div class="page-header">
         <div class="page-title-group">
+          <span class="eyebrow-tag eyebrow-tag-blue">${getIcon('package')} Master SKU Catalog</span>
           <h1 class="page-title">Products Management</h1>
           <p class="page-description">Maintain master product catalog, specifications, and SKU attributes.</p>
         </div>
         <div class="page-actions">
-          <button class="btn btn-primary" id="p-add-btn">${getIcon('plus')} Add Product</button>
+          <button class="btn-pill btn-pill-primary" id="p-add-btn">
+            <span class="btn-icon-bubble">${getIcon('plus')}</span>
+            Add Product
+          </button>
         </div>
       </div>
       <div class="filter-bar">
@@ -1049,13 +1174,20 @@
     c.innerHTML = `
       <div class="page-header">
         <div class="page-title-group">
+          <span class="eyebrow-tag eyebrow-tag-emerald">${getIcon('boxes')} Real-Time Telemetry</span>
           <h1 class="page-title">Live Inventory Tracking</h1>
-          <p class="page-description">Monitor safety buffers, stock depletion rates, and physical counts.</p>
+          <p class="page-description">Monitor safety buffers, stock depletion rates, and physical warehouse counts.</p>
         </div>
         <div class="page-actions">
-          <button class="btn btn-secondary" id="inv-in">${getIcon('arrowDownLeft')} Quick Receive</button>
-          <button class="btn btn-secondary" id="inv-out">${getIcon('arrowUpRight')} Quick Dispatch</button>
-          <button class="btn btn-primary" id="inv-adj">${getIcon('refreshCw')} Audit Adjustment</button>
+          <button class="btn-pill btn-pill-secondary" id="inv-in">
+            <span class="btn-icon-bubble">${getIcon('arrowDownLeft')}</span> Quick Receive
+          </button>
+          <button class="btn-pill btn-pill-secondary" id="inv-out">
+            <span class="btn-icon-bubble">${getIcon('arrowUpRight')}</span> Quick Dispatch
+          </button>
+          <button class="btn-pill btn-pill-primary" id="inv-adj">
+            <span class="btn-icon-bubble">${getIcon('refreshCw')}</span> Audit Adjustment
+          </button>
         </div>
       </div>
       <div class="filter-bar">
@@ -1123,13 +1255,14 @@
     c.innerHTML = `
       <div class="page-header">
         <div class="page-title-group">
+          <span class="eyebrow-tag eyebrow-tag-blue">${getIcon('movements')} Immutable Journal</span>
           <h1 class="page-title">Stock Movements & Audit Trail</h1>
           <p class="page-description">Chronological ledger of receipts, customer dispatches, and inventory corrections.</p>
         </div>
         <div class="page-actions">
-          <button class="btn btn-secondary" id="m-in">${getIcon('arrowDownLeft')} Stock In</button>
-          <button class="btn btn-secondary" id="m-out">${getIcon('arrowUpRight')} Stock Out</button>
-          <button class="btn btn-primary" id="m-adj">${getIcon('refreshCw')} Adjustment</button>
+          <button class="btn-pill btn-pill-secondary" id="m-in"><span class="btn-icon-bubble">${getIcon('arrowDownLeft')}</span> Stock In</button>
+          <button class="btn-pill btn-pill-secondary" id="m-out"><span class="btn-icon-bubble">${getIcon('arrowUpRight')}</span> Stock Out</button>
+          <button class="btn-pill btn-pill-primary" id="m-adj"><span class="btn-icon-bubble">${getIcon('refreshCw')}</span> Adjustment</button>
         </div>
       </div>
       <div id="m-table-wrap"></div>
@@ -1175,11 +1308,12 @@
     c.innerHTML = `
       <div class="page-header">
         <div class="page-title-group">
+          <span class="eyebrow-tag eyebrow-tag-blue">${getIcon('suppliers')} Vendor Ecosystem</span>
           <h1 class="page-title">Suppliers Directory</h1>
           <p class="page-description">Manage approved vendor partners, contact representatives, and supply accounts.</p>
         </div>
         <div class="page-actions">
-          <button class="btn btn-primary" id="s-add-btn">${getIcon('plus')} Add Supplier</button>
+          <button class="btn-pill btn-pill-primary" id="s-add-btn"><span class="btn-icon-bubble">${getIcon('plus')}</span> Add Supplier</button>
         </div>
       </div>
       <div id="s-table-wrap"></div>
@@ -1231,42 +1365,47 @@
     c.innerHTML = `
       <div class="page-header">
         <div class="page-title-group">
+          <span class="eyebrow-tag eyebrow-tag-blue">${getIcon('reports')} Financial Intelligence</span>
           <h1 class="page-title">Inventory Reports & Analytics</h1>
           <p class="page-description">Exportable financial auditing, asset valuation, and stock replenishment metrics.</p>
         </div>
         <div class="page-actions">
-          <button class="btn btn-secondary" id="exp-mov">${getIcon('download')} Export Movements CSV</button>
-          <button class="btn btn-primary" id="exp-inv">${getIcon('download')} Export Full Inventory CSV</button>
+          <button class="btn-pill btn-pill-secondary" id="exp-mov"><span class="btn-icon-bubble">${getIcon('download')}</span> Export Movements CSV</button>
+          <button class="btn-pill btn-pill-primary" id="exp-inv"><span class="btn-icon-bubble">${getIcon('download')}</span> Export Inventory CSV</button>
         </div>
       </div>
 
       <div class="card" style="margin-bottom:24px;">
-        <div class="card-header"><h2 class="card-title">Category Valuation & Asset Allocation</h2></div>
-        <div class="table-responsive">
-          <table class="data-table">
-            <thead><tr><th>Category</th><th class="num">SKU Count</th><th class="num">Total Units</th><th class="num">Valuation</th><th class="num">Share</th></tr></thead>
-            <tbody>
-              ${Object.entries(catDist).map(([cat, d]) => {
-                const s = totalVal > 0 ? ((d.value / totalVal) * 100).toFixed(1) : 0;
-                return `<tr><td style="font-weight:600;">${cat}</td><td class="num">${d.count} SKUs</td><td class="num">${formatNumber(d.units)}</td><td class="num" style="font-weight:600;">${formatCurrency(d.value, state.settings.currency)}</td><td class="num mono">${s}%</td></tr>`;
-              }).join('')}
-            </tbody>
-          </table>
+        <div class="card-inner">
+          <div class="card-header"><h2 class="card-title">Category Valuation & Asset Allocation</h2></div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead><tr><th>Category</th><th class="num">SKU Count</th><th class="num">Total Units</th><th class="num">Valuation</th><th class="num">Share</th></tr></thead>
+              <tbody>
+                ${Object.entries(catDist).map(([cat, d]) => {
+                  const s = totalVal > 0 ? ((d.value / totalVal) * 100).toFixed(1) : 0;
+                  return `<tr><td style="font-weight:600;">${cat}</td><td class="num">${d.count} SKUs</td><td class="num">${formatNumber(d.units)}</td><td class="num" style="font-weight:600;">${formatCurrency(d.value, state.settings.currency)}</td><td class="num mono">${s}%</td></tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-header"><h2 class="card-title">Replenishment Priority Audit</h2></div>
-        <div class="table-responsive">
-          <table class="data-table">
-            <thead><tr><th>SKU / Product</th><th>Category</th><th class="num">Current Stock</th><th class="num">Target Safety</th><th class="num">Recommended Order</th></tr></thead>
-            <tbody>
-              ${lowStock.map(p => {
-                const req = Math.max(p.minimumStock * 2 - p.quantity, p.minimumStock);
-                return `<tr><td><strong>${p.name}</strong><div class="mono" style="font-size:11px;color:var(--text-secondary);">${p.sku}</div></td><td>${p.category}</td><td class="num" style="color:${p.quantity === 0 ? 'var(--color-danger)' : 'var(--color-warning)'};font-weight:600;">${p.quantity}</td><td class="num mono">${p.minimumStock}</td><td class="num" style="font-weight:700;color:var(--accent-primary);">+${req} units</td></tr>`;
-              }).join('')}
-            </tbody>
-          </table>
+        <div class="card-inner">
+          <div class="card-header"><h2 class="card-title">Replenishment Priority Audit</h2></div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead><tr><th>SKU / Product</th><th>Category</th><th class="num">Current Stock</th><th class="num">Target Safety</th><th class="num">Recommended Order</th></tr></thead>
+              <tbody>
+                ${lowStock.map(p => {
+                  const req = Math.max(p.minimumStock * 2 - p.quantity, p.minimumStock);
+                  return `<tr><td><strong>${p.name}</strong><div class="mono" style="font-size:11px;color:var(--text-secondary);">${p.sku}</div></td><td>${p.category}</td><td class="num" style="color:${p.quantity === 0 ? 'var(--color-danger)' : 'var(--color-warning)'};font-weight:600;">${p.quantity}</td><td class="num mono">${p.minimumStock}</td><td class="num" style="font-weight:700;color:var(--accent-primary);">+${req} units</td></tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     `;
@@ -1301,34 +1440,39 @@
     c.innerHTML = `
       <div class="page-header">
         <div class="page-title-group">
+          <span class="eyebrow-tag eyebrow-tag-blue">${getIcon('settings')} System Configuration</span>
           <h1 class="page-title">System Settings</h1>
           <p class="page-description">Configure regional currency, safety thresholds, and demo dataset state.</p>
         </div>
-        <div class="page-actions"><button class="btn btn-primary" id="save-set">Save Preferences</button></div>
+        <div class="page-actions"><button class="btn-pill btn-pill-primary" id="save-set"><span class="btn-icon-bubble">${getIcon('checkCircle')}</span> Save Preferences</button></div>
       </div>
 
       <div class="settings-section">
-        <div class="settings-row">
-          <div class="settings-label-group"><label class="settings-label">Company Name</label></div>
-          <div style="width:280px;"><input type="text" id="set-company" class="form-input" value="${state.settings.companyName}"></div>
-        </div>
-        <div class="settings-row">
-          <div class="settings-label-group"><label class="settings-label">Display Currency</label></div>
-          <div style="width:280px;">
-            <select id="set-curr" class="form-select">
-              <option value="USD" ${state.settings.currency === 'USD' ? 'selected' : ''}>USD ($)</option>
-              <option value="EUR" ${state.settings.currency === 'EUR' ? 'selected' : ''}>EUR (€)</option>
-              <option value="GBP" ${state.settings.currency === 'GBP' ? 'selected' : ''}>GBP (£)</option>
-              <option value="INR" ${state.settings.currency === 'INR' ? 'selected' : ''}>INR (₹)</option>
-            </select>
+        <div class="settings-section-inner">
+          <div class="settings-row">
+            <div class="settings-label-group"><label class="settings-label">Company Name</label></div>
+            <div style="width:280px;"><input type="text" id="set-company" class="form-input" value="${state.settings.companyName}"></div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label-group"><label class="settings-label">Display Currency</label></div>
+            <div style="width:280px;">
+              <select id="set-curr" class="form-select">
+                <option value="USD" ${state.settings.currency === 'USD' ? 'selected' : ''}>USD ($)</option>
+                <option value="EUR" ${state.settings.currency === 'EUR' ? 'selected' : ''}>EUR (€)</option>
+                <option value="GBP" ${state.settings.currency === 'GBP' ? 'selected' : ''}>GBP (£)</option>
+                <option value="INR" ${state.settings.currency === 'INR' ? 'selected' : ''}>INR (₹)</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="settings-section" style="border-color:#FECACA;">
-        <div class="settings-row">
-          <div><strong style="color:var(--color-danger);">Reset Mock Data</strong><div class="settings-help">Restores all 22 products and original movement logs</div></div>
-          <div><button class="btn btn-outline-danger" id="reset-data-btn">${getIcon('refreshCw')} Reset Data</button></div>
+      <div class="settings-section" style="border-color:rgba(220, 38, 38, 0.3);">
+        <div class="settings-section-inner">
+          <div class="settings-row">
+            <div><strong style="color:var(--color-danger);">Reset Mock Data</strong><div class="settings-help">Restores all 22 products and original movement logs</div></div>
+            <div><button class="btn btn-outline-danger" id="reset-data-btn">${getIcon('refreshCw')} Reset Data</button></div>
+          </div>
         </div>
       </div>
     `;
@@ -1373,7 +1517,7 @@
 
     if (!sidebarEl || !topbarEl || !mainEl) return;
 
-    // Render Sidebar
+    // Render Sidebar (Obsidian Titanium with Live Pulse)
     const navItems = [
       { id: 'dashboard', label: 'Dashboard', icon: 'dashboard', path: '#/dashboard' },
       { id: 'products', label: 'Products', icon: 'package', path: '#/products' },
@@ -1414,8 +1558,11 @@
           </ul>
         </nav>
         <div class="sidebar-footer">
-          <div style="font-weight:600;color:#E2E8F0;">StockFlow v1.0.0</div>
-          <div>Semester 3 AIML Project</div>
+          <div style="display:flex;align-items:center;gap:6px;font-weight:700;color:#F8FAFC;margin-bottom:2px;">
+            <span style="width:6px;height:6px;border-radius:9999px;background:#10B981;box-shadow:0 0 8px #10B981;"></span>
+            StockFlow v1.0.0
+          </div>
+          <div style="font-size:10px;color:#64748B;">Enterprise Edition &bull; Sem 3 AIML</div>
         </div>
       `;
 
@@ -1427,7 +1574,7 @@
       });
     }
 
-    // Render Topbar
+    // Render Floating Island Topbar
     function updateTopbar(title = 'Dashboard') {
       const low = state.getLowStockProducts().length + state.getOutOfStockProducts().length;
       topbarEl.innerHTML = `
@@ -1442,6 +1589,7 @@
         <div class="topbar-search-container">
           <span class="topbar-search-icon">${getIcon('search')}</span>
           <input type="text" class="topbar-search-input" id="top-search" placeholder="Search product name or SKU..." autocomplete="off">
+          <span class="topbar-search-shortcut">⌘K</span>
           <div class="topbar-search-dropdown" id="top-dropdown"></div>
         </div>
         <div class="topbar-right">

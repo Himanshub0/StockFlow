@@ -18,15 +18,18 @@ export function renderReports(container) {
   container.innerHTML = `
     <div class="page-header">
       <div class="page-title-group">
+        <span class="eyebrow-tag eyebrow-tag-blue">${getIcon('reports')} Financial Intelligence</span>
         <h1 class="page-title">Inventory Reports & Analytics</h1>
         <p class="page-description">Exportable financial auditing, asset valuation, and stock replenishment metrics.</p>
       </div>
       <div class="page-actions">
-        <button class="btn btn-secondary" id="export-movements-csv-btn">
-          ${getIcon('download')} Export Movements CSV
+        <button class="btn-pill btn-pill-secondary" id="export-movements-csv-btn">
+          <span class="btn-icon-bubble">${getIcon('download')}</span>
+          Export Movements CSV
         </button>
-        <button class="btn btn-primary" id="export-inventory-csv-btn">
-          ${getIcon('download')} Export Full Inventory CSV
+        <button class="btn-pill btn-pill-primary" id="export-inventory-csv-btn">
+          <span class="btn-icon-bubble">${getIcon('download')}</span>
+          Export Full Inventory CSV
         </button>
       </div>
     </div>

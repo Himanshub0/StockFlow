@@ -16,18 +16,19 @@ export function renderInventory(container) {
   container.innerHTML = `
     <div class="page-header">
       <div class="page-title-group">
+        <span class="eyebrow-tag eyebrow-tag-emerald">${getIcon('boxes')} Real-Time Telemetry</span>
         <h1 class="page-title">Live Inventory Tracking</h1>
-        <p class="page-description">Monitor safety buffers, stock depletion rates, and physical counts.</p>
+        <p class="page-description">Monitor safety buffers, stock depletion rates, and physical warehouse counts.</p>
       </div>
       <div class="page-actions">
-        <button class="btn btn-secondary" id="inv-stock-in-btn">
-          ${getIcon('arrowDownLeft')} Quick Receive
+        <button class="btn-pill btn-pill-secondary" id="inv-stock-in-btn">
+          <span class="btn-icon-bubble">${getIcon('arrowDownLeft')}</span> Quick Receive
         </button>
-        <button class="btn btn-secondary" id="inv-stock-out-btn">
-          ${getIcon('arrowUpRight')} Quick Dispatch
+        <button class="btn-pill btn-pill-secondary" id="inv-stock-out-btn">
+          <span class="btn-icon-bubble">${getIcon('arrowUpRight')}</span> Quick Dispatch
         </button>
-        <button class="btn btn-primary" id="inv-adjust-btn">
-          ${getIcon('refreshCw')} Audit Adjustment
+        <button class="btn-pill btn-pill-primary" id="inv-adjust-btn">
+          <span class="btn-icon-bubble">${getIcon('refreshCw')}</span> Audit Adjustment
         </button>
       </div>
     </div>

@@ -40,6 +40,7 @@ export class Topbar {
       <div class="topbar-search-container">
         <span class="topbar-search-icon">${getIcon('search')}</span>
         <input type="text" class="topbar-search-input" id="global-search-input" placeholder="Search product name or SKU..." autocomplete="off">
+        <span class="topbar-search-shortcut">⌘K</span>
         <div class="topbar-search-dropdown" id="global-search-dropdown"></div>
       </div>
 

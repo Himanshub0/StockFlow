@@ -13,12 +13,14 @@ export function renderSuppliers(container) {
   container.innerHTML = `
     <div class="page-header">
       <div class="page-title-group">
+        <span class="eyebrow-tag eyebrow-tag-blue">${getIcon('suppliers')} Vendor Ecosystem</span>
         <h1 class="page-title">Suppliers Directory</h1>
-        <p class="page-description">Manage approved vendor partners, contact representatives, and supply accounts.</p>
+        <p class="page-description">Manage approved vendor partners, contact representatives, and procurement tiers.</p>
       </div>
       <div class="page-actions">
-        <button class="btn btn-primary" id="add-supplier-btn">
-          ${getIcon('plus')} Add Supplier
+        <button class="btn-pill btn-pill-primary" id="add-supplier-btn">
+          <span class="btn-icon-bubble">${getIcon('plus')}</span>
+          Add Supplier
         </button>
       </div>
     </div>

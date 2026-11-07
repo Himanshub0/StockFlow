@@ -13,18 +13,19 @@ export function renderMovements(container) {
   container.innerHTML = `
     <div class="page-header">
       <div class="page-title-group">
+        <span class="eyebrow-tag eyebrow-tag-blue">${getIcon('movements')} Immutable Journal</span>
         <h1 class="page-title">Stock Movements & Audit Trail</h1>
         <p class="page-description">Immutable chronological log of all stock receipts, dispatches, and manual adjustments.</p>
       </div>
       <div class="page-actions">
-        <button class="btn btn-secondary" id="mov-page-in-btn">
-          ${getIcon('arrowDownLeft')} Stock In
+        <button class="btn-pill btn-pill-secondary" id="mov-page-in-btn">
+          <span class="btn-icon-bubble">${getIcon('arrowDownLeft')}</span> Stock In
         </button>
-        <button class="btn btn-secondary" id="mov-page-out-btn">
-          ${getIcon('arrowUpRight')} Stock Out
+        <button class="btn-pill btn-pill-secondary" id="mov-page-out-btn">
+          <span class="btn-icon-bubble">${getIcon('arrowUpRight')}</span> Stock Out
         </button>
-        <button class="btn btn-primary" id="mov-page-adj-btn">
-          ${getIcon('refreshCw')} Audit Adjustment
+        <button class="btn-pill btn-pill-primary" id="mov-page-adj-btn">
+          <span class="btn-icon-bubble">${getIcon('refreshCw')}</span> Adjustment
         </button>
       </div>
     </div>
