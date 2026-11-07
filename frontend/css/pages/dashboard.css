@@ -243,3 +243,76 @@
 .activity-qty.adjust {
   color: var(--color-warning-text);
 }
+
+/* ==========================================================================
+   Mobile Optimization for Bento Dashboard
+   ========================================================================== */
+@media (max-width: 640px) {
+  .dashboard-grid {
+    gap: 12px;
+    margin-bottom: var(--spacing-5);
+  }
+
+  .quick-actions-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: var(--spacing-4);
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .quick-action-card {
+    min-width: 0;
+    padding: 10px;
+    gap: 8px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .quick-action-icon {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    border-radius: 8px;
+  }
+
+  .quick-action-title {
+    font-size: 11px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .quick-action-desc {
+    display: none;
+  }
+
+  .category-stat-row {
+    gap: 6px;
+  }
+
+  .category-stat-title {
+    font-size: 12px;
+  }
+
+  .category-stat-meta {
+    font-size: 10px;
+  }
+
+  .chart-container {
+    min-height: 170px;
+  }
+
+  .chart-legend {
+    gap: 10px;
+  }
+
+  .legend-item {
+    font-size: 10px;
+  }
+
+  .activity-item {
+    padding: 10px 0;
+  }
+}

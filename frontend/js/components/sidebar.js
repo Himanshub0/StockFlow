@@ -93,11 +93,15 @@ export class Sidebar {
       </div>
     `;
 
-    // Toggle Sidebar Width
+    // Toggle Sidebar Width / Mobile Close
     const toggleBtn = this.container.querySelector('#sidebar-toggle-btn');
     if (toggleBtn) {
       toggleBtn.addEventListener('click', () => {
-        document.body.classList.toggle('sidebar-collapsed');
+        if (window.innerWidth <= 1024) {
+          document.body.classList.remove('sidebar-mobile-open');
+        } else {
+          document.body.classList.toggle('sidebar-collapsed');
+        }
       });
     }
 

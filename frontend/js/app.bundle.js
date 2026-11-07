@@ -1569,7 +1569,15 @@
       `;
 
       const tBtn = sidebarEl.querySelector('#s-toggle');
-      if (tBtn) tBtn.onclick = () => document.body.classList.toggle('sidebar-collapsed');
+      if (tBtn) {
+        tBtn.onclick = () => {
+          if (window.innerWidth <= 1024) {
+            document.body.classList.remove('sidebar-mobile-open');
+          } else {
+            document.body.classList.toggle('sidebar-collapsed');
+          }
+        };
+      }
 
       sidebarEl.querySelectorAll('.nav-link').forEach(l => {
         l.onclick = () => document.body.classList.remove('sidebar-mobile-open');
