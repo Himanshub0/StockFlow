@@ -54,7 +54,6 @@
   overflow-x: hidden;
   background-color: var(--bg-canvas);
   position: relative;
-  z-index: 1;
   transition: background-color var(--transition-normal);
 }
 
@@ -650,11 +649,12 @@
   position: fixed;
   inset: 0;
   background-color: rgba(3, 5, 9, 0.75);
-  z-index: calc(var(--z-sidebar) - 1);
+  z-index: var(--z-sidebar-overlay, 45);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   opacity: 0;
   transition: opacity var(--transition-normal);
+  cursor: pointer;
 }
 
 /* ==========================================================================
@@ -662,10 +662,11 @@
    ========================================================================== */
 @media (max-width: 1024px) {
   .app-sidebar {
+    z-index: 100; /* Stays sharply in front of the backdrop overlay at all times */
     width: min(300px, 85vw);
     max-width: 85vw;
     transform: translateX(-100%);
-    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.75);
+    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.85);
     padding-top: max(var(--spacing-2), env(safe-area-inset-top));
     padding-bottom: max(var(--spacing-4), env(safe-area-inset-bottom));
   }
@@ -677,6 +678,7 @@
   .sidebar-mobile-open .sidebar-overlay {
     display: block;
     opacity: 1;
+    z-index: 95; /* Behind the drawer (100) and in front of page content */
   }
 
   .app-wrapper {
