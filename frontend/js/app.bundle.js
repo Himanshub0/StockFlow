@@ -1536,14 +1536,13 @@
 
       sidebarEl.innerHTML = `
         <div class="sidebar-header">
-          <div class="sidebar-brand">
+          <button type="button" class="sidebar-brand" id="sidebar-brand-btn" title="Click logo to collapse / expand sidebar" aria-label="Toggle sidebar navigation">
             <div class="sidebar-brand-icon">${getIcon('boxes')}</div>
             <div class="sidebar-brand-text">
               <span class="sidebar-brand-title">StockFlow</span>
               <span class="sidebar-brand-tagline">ERP Inventory</span>
             </div>
-          </div>
-          <button class="sidebar-toggle-btn" id="s-toggle">${getIcon('collapse')}</button>
+          </button>
         </div>
         <nav class="sidebar-nav">
           <div class="nav-section-title">Navigation</div>
@@ -1568,13 +1567,14 @@
         </div>
       `;
 
-      const tBtn = sidebarEl.querySelector('#s-toggle');
-      if (tBtn) {
-        tBtn.onclick = () => {
+      const brandBtn = sidebarEl.querySelector('#sidebar-brand-btn');
+      if (brandBtn) {
+        brandBtn.onclick = () => {
           if (window.innerWidth <= 1024) {
             document.body.classList.remove('sidebar-mobile-open');
           } else {
-            document.body.classList.toggle('sidebar-collapsed');
+            const isCollapsed = document.body.classList.toggle('sidebar-collapsed');
+            brandBtn.setAttribute('title', isCollapsed ? 'Click logo to expand sidebar' : 'Click logo to collapse sidebar');
           }
         };
       }

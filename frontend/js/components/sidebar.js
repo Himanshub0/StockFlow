@@ -55,7 +55,7 @@ export class Sidebar {
 
     this.container.innerHTML = `
       <div class="sidebar-header">
-        <div class="sidebar-brand">
+        <button type="button" class="sidebar-brand" id="sidebar-brand-btn" title="Click logo to collapse / expand sidebar" aria-label="Toggle sidebar navigation">
           <div class="sidebar-brand-icon">
             ${getIcon('boxes')}
           </div>
@@ -63,9 +63,6 @@ export class Sidebar {
             <span class="sidebar-brand-title">StockFlow</span>
             <span class="sidebar-brand-tagline">ERP Inventory</span>
           </div>
-        </div>
-        <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" title="Toggle Sidebar">
-          ${getIcon('collapse')}
         </button>
       </div>
 
@@ -93,14 +90,15 @@ export class Sidebar {
       </div>
     `;
 
-    // Toggle Sidebar Width / Mobile Close
-    const toggleBtn = this.container.querySelector('#sidebar-toggle-btn');
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', () => {
+    // Toggle Sidebar Width via Logo click / Mobile Close
+    const brandBtn = this.container.querySelector('#sidebar-brand-btn');
+    if (brandBtn) {
+      brandBtn.addEventListener('click', () => {
         if (window.innerWidth <= 1024) {
           document.body.classList.remove('sidebar-mobile-open');
         } else {
-          document.body.classList.toggle('sidebar-collapsed');
+          const isCollapsed = document.body.classList.toggle('sidebar-collapsed');
+          brandBtn.setAttribute('title', isCollapsed ? 'Click logo to expand sidebar' : 'Click logo to collapse sidebar');
         }
       });
     }
