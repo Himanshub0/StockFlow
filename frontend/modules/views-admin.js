@@ -1,7 +1,6 @@
 import { api } from '../api-client.js';
 import {
   BACKUP_SCHEDULES,
-  CURRENCIES,
   DEFAULT_SETTINGS,
   canImportReplace,
   canManageSettings,
@@ -12,7 +11,6 @@ import {
   syncRouteHash
 } from './state.js';
 import {
-  csvEscape,
   downloadCsv,
   escapeHtml,
   formatDate,
@@ -42,11 +40,6 @@ const csvHints = {
 };
 
 const templateCsvFields = ['sku', 'name', 'category', 'unit_price', 'current_stock', 'min_stock', 'max_stock', 'supplier_code', 'supplier_name'];
-const demoProducts = [
-  { sku: 'DEMO-COFFEE-001', name: 'House Blend Coffee (500g)', category: 'Beverages', unit_price: 14.50, current_stock: 42, min_stock: 10, max_stock: 120 },
-  { sku: 'DEMO-MUG-001', name: 'Stoneware Mug', category: 'Homeware', unit_price: 12.00, current_stock: 68, min_stock: 12, max_stock: 160 },
-  { sku: 'DEMO-NOTE-001', name: 'Daily Notes Journal', category: 'Stationery', unit_price: 8.50, current_stock: 24, min_stock: 8, max_stock: 80 }
-];
 
 export function applyUserToDom(user) {
   state.user = user;
@@ -68,7 +61,7 @@ export async function loadSettings() {
   }
 }
 
-/* ---------- Settings & Currency Conversion ---------- */
+/* ---------- Settings ---------- */
 export async function renderSettings() {
   await loadSettings();
   const s = state.settings;
@@ -76,17 +69,13 @@ export async function renderSettings() {
   const adminUser = isAdmin();
   const disabledAttr = editable ? '' : 'disabled';
 
-  const currencyOptions = Object.values(CURRENCIES).map((c) =>
-    `<option value="${c.code}" ${String(s.currency).toUpperCase() === c.code ? 'selected' : ''}>${escapeHtml(c.label)}</option>`
-  ).join('');
-
   const backupOptions = BACKUP_SCHEDULES.map((b) =>
     `<option value="${b.value}" ${s.backup_schedule === b.value ? 'selected' : ''}>${escapeHtml(b.label)}</option>`
   ).join('');
 
   dom.appView.innerHTML = `
     <div class="settings-stack">
-      ${editable ? '' : '<div class="info-banner">Store settings are read-only for your role. Contact a store manager or administrator to change currency or thresholds.</div>'}
+      ${editable ? '' : '<div class="info-banner">Store settings are read-only for your role. Contact a store manager or administrator to change thresholds.</div>'}
 
       <form class="settings-card" data-form="settings" novalidate>
         <div class="panel-heading">
@@ -101,13 +90,6 @@ export async function renderSettings() {
             <span>Store name</span>
             <input id="setting-company-name" name="company_name" value="${escapeHtml(s.company_name)}" required ${disabledAttr}>
             <span class="field-hint">Shown in store exports, invoices, and workspace identity.</span>
-            <span class="field-error" hidden></span>
-          </label>
-
-          <label class="field" for="setting-currency">
-            <span>Store currency</span>
-            <select id="setting-currency" name="currency" ${disabledAttr}>${currencyOptions}</select>
-            <span class="field-hint">Display currency for Dashboard, Reports, and exports. Stored prices are not converted unless you run the converter below.</span>
             <span class="field-error" hidden></span>
           </label>
 
@@ -165,26 +147,11 @@ export async function renderSettings() {
         ${editable ? '<div class="modal-actions" style="margin-top:20px;"><button class="action-button primary" type="submit">Save settings</button></div>' : ''}
       </form>
 
-      ${editable ? `
-        <section class="settings-card" aria-labelledby="currency-convert-heading">
-          <div class="panel-heading">
-            <div>
-              <p class="eyebrow">Catalog Valuation Tool</p>
-              <h2 id="currency-convert-heading">Convert Stored Product Prices</h2>
-            </div>
-          </div>
-          <p class="field-hint" style="margin:0 0 12px;">If your catalog unit prices were imported in another currency (for example INR prices displayed under USD), apply an explicit exchange rate to recalculate stored prices across all SKUs and update the store currency atomically.</p>
-          <div class="tools-actions">
-            ${button('Convert catalog prices…', 'open-currency-converter', 'ghost')}
-          </div>
-        </section>
-      ` : ''}
-
       <section class="panel" aria-labelledby="data-mgmt-heading">
         <div class="panel-heading">
           <div>
             <p class="eyebrow">Data management</p>
-            <h2 id="data-mgmt-heading">Imports, Exports &amp; Sample Data</h2>
+            <h2 id="data-mgmt-heading">Imports &amp; Exports</h2>
           </div>
         </div>
         <div class="data-section-grid">
@@ -211,15 +178,10 @@ export async function renderSettings() {
             </div>
           </div>
 
-          <div class="data-box danger-zone">
-            <div>
-              <h4>Demo Data (Mutates Catalog)</h4>
-              <p>Upsert 3 sample products into your active catalog. Prompts for confirmation before making changes.</p>
-            </div>
-            <div class="tools-actions">
-              ${button('Load demo data…', 'load-demo-data', 'danger', editable ? '' : 'disabled title="Store manager, shopkeeper, or administrator role required"')}
-            </div>
-          </div>
+          ${editable ? `<div class="data-box danger-zone">
+            <div><h4>Reset Store Data</h4><p>Permanently clear products, suppliers, stock movements, purchase orders, and sales orders.</p></div>
+            <div class="tools-actions">${button('Reset store data…', 'reset-store-data', 'danger')}</div>
+          </div>` : ''}
         </div>
         <p class="tools-note">Product CSV columns: sku, name, category, unit_price, current_stock, min_stock, max_stock, supplier_code, supplier_name</p>
       </section>
@@ -230,7 +192,6 @@ export async function renderSettings() {
 export function validateSettingsForm(form) {
   clearFormErrors(form);
   const companyName = String(form.querySelector('[name="company_name"]')?.value || '').trim();
-  const currency = String(form.querySelector('[name="currency"]')?.value || 'USD').trim().toUpperCase();
   const rawThreshold = String(form.querySelector('[name="default_low_stock_threshold"]')?.value ?? '').trim();
   const rawPerPage = String(form.querySelector('[name="items_per_page"]')?.value ?? '').trim();
   const alertsChecked = Boolean(form.querySelector('[name="enable_realtime_alerts"]')?.checked);
@@ -240,10 +201,6 @@ export function validateSettingsForm(form) {
 
   if (!companyName) {
     setFieldError(form, 'company_name', 'Store name cannot be empty.');
-    valid = false;
-  }
-  if (!CURRENCIES[currency]) {
-    setFieldError(form, 'currency', 'Choose a supported currency.');
     valid = false;
   }
   if (rawThreshold === '' || !Number.isInteger(threshold) || threshold < 0) {
@@ -257,7 +214,6 @@ export function validateSettingsForm(form) {
 
   const payload = {
     company_name: companyName,
-    currency,
     default_low_stock_threshold: String(threshold),
     items_per_page: String(perPage),
     enable_realtime_alerts: alertsChecked ? 'true' : 'false'
@@ -280,39 +236,6 @@ export function validateSettingsForm(form) {
     return null;
   }
   return payload;
-}
-
-export function openCurrencyConverterModal() {
-  const current = getCurrencyCode();
-  const opts = Object.values(CURRENCIES).map((c) =>
-    `<option value="${c.code}" ${c.code === current ? 'selected' : ''}>${escapeHtml(c.label)}</option>`
-  ).join('');
-
-  openModal('Convert catalog prices & currency', `
-    <form class="modal-form" data-form="currency-convert" novalidate>
-      <div class="form-message" role="alert" hidden></div>
-      <div class="danger-confirm-box">
-        This recalculates <strong>unit_price = ROUND(unit_price × rate, 2)</strong> across every product in your catalog and logs an audit entry. Current currency: <strong>${escapeHtml(current)}</strong>.
-      </div>
-      <div class="form-columns">
-        <label class="field">
-          <span>Target currency *</span>
-          <select name="target_currency" required>${opts}</select>
-          <span class="field-error" hidden></span>
-        </label>
-        <label class="field">
-          <span>Conversion multiplier *</span>
-          <input name="rate" type="number" min="0.000001" step="any" placeholder="0.012 or 83.50" required>
-          <span class="field-hint">Example: 0.012 converts INR to USD; 83.5 converts USD to INR.</span>
-          <span class="field-error" hidden></span>
-        </label>
-      </div>
-      <div class="modal-actions">
-        <button class="action-button ghost" data-action="close-modal" type="button">Cancel</button>
-        <button class="action-button primary" type="submit">Apply conversion</button>
-      </div>
-    </form>`);
-  attachFieldClearHandlers(dom.modalContent.querySelector('[data-form="currency-convert"]'));
 }
 
 export function csvImportForm(kind) {
@@ -361,21 +284,21 @@ export function downloadTemplate() {
   showMessage('CSV template downloaded.', 'success');
 }
 
-export function loadDemoData() {
+export function resetStoreData() {
   openConfirmModal({
-    title: 'Confirm demo data load',
-    message: 'This will upsert 3 sample products (DEMO-COFFEE-001, DEMO-MUG-001, DEMO-NOTE-001) into your active product catalog. Existing products with other SKUs will remain untouched.',
-    confirmLabel: 'Confirm & load demo data',
+    title: 'Permanently reset store data?',
+    message: 'This deletes every product, supplier, stock movement, purchase order, and sales order with its line items. This cannot be undone. User accounts, store settings, and the audit log will remain so you can sign in and review the reset.',
+    confirmLabel: 'Permanently reset store data',
     onConfirm: async () => {
-      const rows = [templateCsvFields, ...demoProducts.map((item) => templateCsvFields.map((field) => item[field] ?? ''))];
-      const csv = rows.map((row) => row.map(csvEscape).join(',')).join('\r\n');
-      const file = new File([csv], 'stockflow-demo.csv', { type: 'text/csv' });
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('mode', 'upsert');
-      const result = await api.postForm('/api/products/import', formData);
-      showMessage(`Demo data loaded: ${result.inserted || 0} added, ${result.updated || 0} updated.`, 'success');
-      await goToView('products');
+      await api.delete('/api/inventory/store-data');
+      state.productCache.clear();
+      state.products = [];
+      state.alerts = [];
+      state.movements = [];
+      state.purchaseOrders = [];
+      state.salesOrders = [];
+      await goToView('dashboard');
+      showMessage('Store data reset. Accounts, settings, and audit history were kept.', 'success');
     }
   });
 }

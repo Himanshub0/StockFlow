@@ -1,10 +1,5 @@
 export const CURRENCIES = {
-  USD: { code: 'USD', symbol: '$', locale: 'en-US', label: 'USD ($) — US Dollar' },
-  INR: { code: 'INR', symbol: '₹', locale: 'en-IN', label: 'INR (₹) — Indian Rupee' },
-  EUR: { code: 'EUR', symbol: '€', locale: 'en-IE', label: 'EUR (€) — Euro' },
-  GBP: { code: 'GBP', symbol: '£', locale: 'en-GB', label: 'GBP (£) — British Pound' },
-  CAD: { code: 'CAD', symbol: 'CA$', locale: 'en-CA', label: 'CAD (CA$) — Canadian Dollar' },
-  AUD: { code: 'AUD', symbol: 'A$', locale: 'en-AU', label: 'AUD (A$) — Australian Dollar' }
+  INR: { code: 'INR', symbol: '₹', locale: 'en-IN', label: 'INR (₹) — Indian Rupee' }
 };
 
 export const BACKUP_SCHEDULES = [
@@ -16,7 +11,7 @@ export const BACKUP_SCHEDULES = [
 
 export const DEFAULT_SETTINGS = {
   company_name: 'StockFlow Store',
-  currency: 'USD',
+  currency: 'INR',
   default_low_stock_threshold: '15',
   enable_realtime_alerts: 'true',
   items_per_page: '15',

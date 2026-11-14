@@ -6,7 +6,6 @@ from backend.utils.auth import require_auth
 
 inventory_bp = Blueprint("inventory", __name__, url_prefix="/api/inventory")
 
-SUPPORTED_CURRENCIES = {"USD", "INR", "EUR", "GBP", "CAD", "AUD"}
 TECHNICAL_SETTING_KEYS = {"cluster_region", "backup_schedule"}
 VALID_BACKUP_SCHEDULES = {"daily_2200_close", "hourly", "weekly_sunday", "manual_only"}
 
@@ -31,6 +30,29 @@ def alerts():
     except Exception as e:
         return error_response(f"Failed to fetch alerts: {str(e)}", status_code=500)
 
+@inventory_bp.route("/store-data", methods=["DELETE"])
+@require_auth(roles=["admin", "manager", "shopkeeper"])
+def reset_store_data():
+    conn = get_db(get_target_db())
+    try:
+        conn.execute("BEGIN IMMEDIATE")
+        counts = {}
+        for table in ("products", "suppliers", "movements", "purchase_orders", "sales_orders"):
+            counts[table] = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+        for table in ("sales_order_items", "purchase_order_items", "movements", "sales_orders", "purchase_orders", "products", "suppliers"):
+            conn.execute(f"DELETE FROM {table}")
+        actor = getattr(request, "current_user", {}) or {}
+        conn.execute(
+            "INSERT INTO audit_logs (username, action, details, status) VALUES (?, 'STORE_DATA_RESET', ?, 'success')",
+            (actor.get("username", "system"), "Deleted store inventory, supplier, movement, purchase-order, and sales-order data"),
+        )
+        conn.commit()
+        return success_response(data={"deleted": counts}, message="Store data reset successfully")
+    except Exception as e:
+        conn.rollback()
+        return error_response(f"Failed to reset store data: {str(e)}", status_code=500)
+    finally:
+        conn.close()
 def _filter_settings_for_role(settings_dict, role):
     if (role or "").lower() == "admin":
         return settings_dict
@@ -42,8 +64,9 @@ def get_settings():
     actor = getattr(request, "current_user", {}) or {}
     conn = get_db(get_target_db())
     try:
-        rows = conn.execute("SELECT key, value FROM system_settings").fetchall()
+        rows = conn.execute("SELECT key, value FROM system_settings WHERE key != 'currency'").fetchall()
         settings_dict = _filter_settings_for_role({r["key"]: r["value"] for r in rows}, actor.get("role"))
+        settings_dict["currency"] = "INR"
         return success_response(data={"settings": settings_dict})
     finally:
         conn.close()
@@ -73,10 +96,10 @@ def update_settings():
                 cleaned[k] = val
         elif k == "currency":
             val = str(raw_val or "").strip().upper()
-            if val not in SUPPORTED_CURRENCIES:
-                field_errors[k] = f"Currency must be one of: {', '.join(sorted(SUPPORTED_CURRENCIES))}"
-            else:
+            if val == "INR":
                 cleaned[k] = val
+            else:
+                field_errors[k] = "Only INR (Indian rupee) is supported"
         elif k == "default_low_stock_threshold":
             try:
                 num = int(str(raw_val).strip())
@@ -133,76 +156,9 @@ def update_settings():
                 (k, v)
             )
         conn.commit()
-        rows = conn.execute("SELECT key, value FROM system_settings").fetchall()
+        rows = conn.execute("SELECT key, value FROM system_settings WHERE key != 'currency'").fetchall()
         settings_dict = _filter_settings_for_role({r["key"]: r["value"] for r in rows}, actor_role)
+        settings_dict["currency"] = "INR"
         return success_response(data={"settings": settings_dict}, message="System settings updated successfully")
-    finally:
-        conn.close()
-
-
-@inventory_bp.route("/convert-prices", methods=["POST"])
-@require_auth(roles=["admin", "manager", "shopkeeper"])
-def convert_catalog_currency():
-    data = request.get_json(silent=True) or {}
-    target_currency = str(data.get("target_currency") or "").strip().upper()
-    raw_rate = data.get("rate")
-    field_errors = {}
-
-    if target_currency not in SUPPORTED_CURRENCIES:
-        field_errors["target_currency"] = f"Currency must be one of: {', '.join(sorted(SUPPORTED_CURRENCIES))}"
-
-    rate = None
-    if raw_rate is None or str(raw_rate).strip() == "":
-        field_errors["rate"] = "Conversion rate is required"
-    else:
-        try:
-            rate = float(raw_rate)
-            if rate <= 0 or rate > 100000:
-                raise ValueError
-        except (ValueError, TypeError):
-            field_errors["rate"] = "Conversion rate must be a positive number (e.g. 0.012 or 83.5)"
-
-    if field_errors:
-        return error_response(next(iter(field_errors.values())), status_code=400, errors=field_errors)
-
-    actor = getattr(request, "current_user", {}) or {}
-    actor_username = actor.get("username", "system")
-
-    conn = get_db(get_target_db())
-    try:
-        conn.execute("BEGIN IMMEDIATE")
-        prev_currency = InventoryService.get_currency(conn)
-        updated_res = conn.execute(
-            "UPDATE products SET unit_price = ROUND(unit_price * ?, 2)",
-            (rate,),
-        )
-        conn.execute(
-            """
-            INSERT INTO system_settings (key, value, updated_at)
-            VALUES ('currency', ?, CURRENT_TIMESTAMP)
-            ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = CURRENT_TIMESTAMP
-            """,
-            (target_currency,),
-        )
-        conn.execute(
-            """
-            INSERT INTO audit_logs (username, action, details, status)
-            VALUES (?, 'CURRENCY_CONVERTED', ?, 'success')
-            """,
-            (actor_username, f"Converted {updated_res.rowcount} product prices from {prev_currency} to {target_currency} using rate {rate}"),
-        )
-        conn.commit()
-        return success_response(
-            data={
-                "previous_currency": prev_currency,
-                "currency": target_currency,
-                "rate": rate,
-                "products_updated": updated_res.rowcount,
-            },
-            message=f"Converted {updated_res.rowcount} products to {target_currency}",
-        )
-    except Exception as e:
-        conn.rollback()
-        return error_response(f"Failed to convert catalog prices: {str(e)}", status_code=500)
     finally:
         conn.close()

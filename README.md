@@ -17,6 +17,7 @@ StockFlow/
 │   ├── utils/         # Validators, auth decorators, and response helpers
 │   └── tests/         # Unit and integration test suites
 ├── docs/              # System documentation, DB design, API spec, testing guide
+├── research/          # UX research, interviews, empathy maps, and personas
 ├── instance/          # SQLite database storage (stockflow.db)
 ├── requirements.txt   # Python backend dependencies
 ├── .env.example       # Example environment variables

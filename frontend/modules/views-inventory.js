@@ -75,14 +75,10 @@ export async function renderDashboard() {
   const todayMovements = movements.filter(
     (item) => new Date(String(item.created_at).replace(' ', 'T')).toDateString() === today
   ).length;
-  const totalProducts = Number(overview.total_items || 0);
-  const outOfStock = Number(overview.out_of_stock_count || 0);
-  const lowStock = Number(overview.low_stock_count || 0);
-  const inStock = Math.max(0, totalProducts - outOfStock - lowStock);
-  const totalAlerts = outOfStock + lowStock;
-  const healthyPercent = totalProducts ? Math.round((inStock / totalProducts) * 100) : 0;
+  const totalAlerts = Number(overview.out_of_stock_count || 0) + Number(overview.low_stock_count || 0);
 
   dom.appView.innerHTML = `
+    <div class="dashboard-heading-row"><div><p class="eyebrow">Live inventory overview</p><h2>Today at a glance</h2></div><span class="dashboard-date">${formatDate(new Date().toISOString())}</span></div>
     <section class="stat-grid" aria-label="Store key metrics">
       <article class="stat-card">
         <span>Total products</span>
@@ -97,7 +93,7 @@ export async function renderDashboard() {
       <article class="stat-card ${overview.out_of_stock_count > 0 ? 'danger' : (totalAlerts > 0 ? 'warning' : '')}">
         <span>Urgent stock alerts</span>
         <strong>${totalAlerts}</strong>
-        <small>${outOfStock} out of stock · ${lowStock} low stock</small>
+        <small>${overview.out_of_stock_count} out of stock · ${overview.low_stock_count} low stock</small>
       </article>
       <article class="stat-card">
         <span>Recent movements</span>
@@ -106,39 +102,17 @@ export async function renderDashboard() {
       </article>
     </section>
 
-    <section class="dashboard-priority-grid" aria-label="Stock health and urgent alerts">
-      <article class="panel stock-health-panel" aria-labelledby="stock-health-heading">
-        <div class="panel-heading">
-          <div>
-            <p class="eyebrow">Catalog health</p>
-            <h2 id="stock-health-heading">Stock health</h2>
-          </div>
-          <span class="stock-health-percent">${healthyPercent}% healthy</span>
+    <section class="panel dashboard-alerts-panel" aria-labelledby="dash-alerts-heading">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Urgent priority</p>
+          <h2 id="dash-alerts-heading">Stock alerts needing attention</h2>
         </div>
-        <div class="stock-health-bar" role="img" aria-label="${inStock} healthy, ${lowStock} low stock, ${outOfStock} out of stock">
-          <span class="stock-health-segment healthy" style="width:${healthyPercent}%"></span>
-          <span class="stock-health-segment low" style="width:${totalProducts ? (lowStock / totalProducts) * 100 : 0}%"></span>
-          <span class="stock-health-segment out" style="width:${totalProducts ? (outOfStock / totalProducts) * 100 : 0}%"></span>
-        </div>
-        <div class="stock-health-legend">
-          <span><i class="healthy" aria-hidden="true"></i>Healthy <b>${inStock}</b></span>
-          <span><i class="low" aria-hidden="true"></i>Low <b>${lowStock}</b></span>
-          <span><i class="out" aria-hidden="true"></i>Out <b>${outOfStock}</b></span>
-        </div>
-      </article>
-
-      <section class="panel dashboard-alerts-panel" aria-labelledby="dash-alerts-heading">
-        <div class="panel-heading">
-          <div>
-            <p class="eyebrow">Urgent priority</p>
-            <h2 id="dash-alerts-heading">Stock alerts needing attention</h2>
-          </div>
-          ${button(`View all alerts (${alerts.length})`, 'view-alerts', 'text-button')}
-        </div>
-        ${alerts.length
-          ? `<div class="alert-list">${alerts.slice(0, 5).map(dashboardAlertRow).join('')}</div>`
-          : empty('Inventory is in shape', 'No products are at or below their minimum stock threshold.')}
-      </section>
+        ${button(`View all alerts (${alerts.length})`, 'view-alerts', 'text-button')}
+      </div>
+      ${alerts.length
+        ? `<div class="alert-list">${alerts.slice(0, 5).map(dashboardAlertRow).join('')}</div>`
+        : empty('Inventory is in shape', 'No products are at or below their minimum stock threshold.')}
     </section>
 
     <section class="dashboard-secondary">
@@ -458,12 +432,16 @@ function buildMovementQueryParams({ includePaging = true } = {}) {
 
 export async function renderMovements() {
   const reqId = ++state.reqSeq.movements;
-  const data = await api.get(`/api/movements?${buildMovementQueryParams().toString()}`);
+  const [data, chartData] = await Promise.all([
+    api.get(`/api/movements?${buildMovementQueryParams().toString()}`),
+    api.get(`/api/movements?${buildMovementQueryParams({ includePaging: false }).toString()}&limit=5000`)
+  ]);
   if (reqId !== state.reqSeq.movements) return;
 
   state.movements = data.movements || [];
   state.movementTotal = data.total ?? state.movements.length;
   state.movementFilteredTotal = data.filtered_total ?? state.movements.length;
+  state.movementChartData = chartData.movements || [];
 
   dom.appView.innerHTML = `
     <div class="toolbar">
@@ -489,6 +467,7 @@ export async function renderMovements() {
       <button class="action-button ghost small" id="clear-movement-filters" data-action="clear-movement-filters" type="button" ${hasMovementFilters() ? '' : 'disabled'}>Clear filters</button>
       <span class="table-count" id="movements-count"></span>
     </div>
+    ${movementHistoryChart(state.movementChartData)}
     <div id="movements-results" class="table-panel"></div>
   `;
 
@@ -522,10 +501,14 @@ export async function refreshMovementsTable() {
   resultsEl.setAttribute('aria-busy', 'true');
   try {
     const data = await api.get(`/api/movements?${buildMovementQueryParams().toString()}`);
+    const chartData = await api.get(`/api/movements?${buildMovementQueryParams({ includePaging: false }).toString()}&limit=5000`);
     if (reqId !== state.reqSeq.movements) return;
     state.movements = data.movements || [];
     state.movementTotal = data.total ?? state.movements.length;
     state.movementFilteredTotal = data.filtered_total ?? state.movements.length;
+    state.movementChartData = chartData.movements || [];
+    const chart = document.querySelector('#movement-history-chart');
+    if (chart) chart.outerHTML = movementHistoryChart(state.movementChartData);
     updateMovementsDom();
   } catch (error) {
     if (reqId !== state.reqSeq.movements) return;
@@ -599,6 +582,33 @@ function movementRow(item) {
       <td data-label="Performed by">${escapeHtml(item.performed_by || '—')}</td>
       <td data-label="Date">${formatDate(item.created_at)}</td>
     </tr>`;
+}
+
+function movementHistoryChart(records = []) {
+  const days = Array.from({ length: 14 }, (_, i) => {
+    const day = new Date();
+    day.setHours(0, 0, 0, 0);
+    day.setDate(day.getDate() - 13 + i);
+    return { date: day, inbound: 0, reductions: 0, transfers: 0 };
+  });
+  records.forEach((row) => {
+    const date = new Date(String(row.created_at || '').replace(' ', 'T'));
+    const bucket = days.find((day) => day.date.toDateString() === date.toDateString());
+    if (!bucket) return;
+    const quantity = Math.abs(Number(row.quantity) || 0);
+    if (row.type === 'INBOUND') bucket.inbound += quantity;
+    else if (row.type === 'TRANSFER') bucket.transfers += quantity;
+    else bucket.reductions += quantity;
+  });
+  const max = Math.max(1, ...days.flatMap((day) => [day.inbound, day.reductions, day.transfers]));
+  const bars = days.map((day, index) => {
+    const x = 42 + index * 41;
+    const heights = [day.inbound, day.reductions, day.transfers].map((value) => Math.max(0, value / max * 118));
+    const colors = ['var(--lime)', 'var(--green)', 'var(--orange)'];
+    const rects = heights.map((height, j) => `<rect x="${x + j * 9}" y="145" width="7" height="${height}" rx="3" transform="translate(0 ${-height})" fill="${colors[j]}"><title>${['Additions', 'Reductions', 'Transfers'][j]}: ${Math.round([day.inbound, day.reductions, day.transfers][j])}</title></rect>`).join('');
+    return `${rects}<text class="chart-label" x="${x + 9}" y="164" text-anchor="middle">${day.date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</text>`;
+  }).join('');
+  return `<section class="panel movement-history-panel" id="movement-history-chart"><div class="panel-heading"><div><p class="eyebrow">Stock flow</p><h2>Movement history · 14 days</h2></div><span class="chart-summary">${records.length} matching records</span></div>${records.length ? `<div class="movement-chart-scroll"><svg class="movement-history-chart" viewBox="0 0 640 180" role="img" aria-label="Daily stock additions, reductions, and transfers over the last 14 days"><line class="chart-gridline" x1="28" y1="26" x2="620" y2="26"/><line class="chart-gridline" x1="28" y1="85" x2="620" y2="85"/><line class="chart-gridline" x1="28" y1="145" x2="620" y2="145"/>${bars}</svg><div class="chart-legend"><span><i class="legend-inbound"></i>Additions</span><span><i class="legend-outbound"></i>Reductions</span><span><i class="legend-transfer"></i>Transfers</span></div></div>` : empty('No movement data yet', 'Record stock activity to build your movement history.')}</section>`;
 }
 
 export async function exportMovementsCsv() {

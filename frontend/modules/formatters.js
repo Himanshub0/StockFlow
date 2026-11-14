@@ -25,12 +25,11 @@ export const initials = (name) =>
     .toUpperCase() || 'SF';
 
 export function getCurrencyCode() {
-  const code = String(state.settings?.currency || 'USD').trim().toUpperCase();
-  return CURRENCIES[code] ? code : 'USD';
+  return 'INR';
 }
 
 export function getCurrencyConfig() {
-  return CURRENCIES[getCurrencyCode()] || CURRENCIES.USD;
+  return CURRENCIES.INR;
 }
 
 export function money(value) {

@@ -3,8 +3,7 @@ from backend.database.connection import get_db, rows_to_dict_list
 class InventoryService:
     @staticmethod
     def get_currency(conn):
-        row = conn.execute("SELECT value FROM system_settings WHERE key = 'currency'").fetchone()
-        return (row["value"] if row and row["value"] else "USD").strip().upper()
+        return "INR"
 
     @staticmethod
     def get_overview(db_path=None):

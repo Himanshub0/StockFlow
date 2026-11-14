@@ -1,11 +1,27 @@
 from backend.database.connection import get_db, init_db
 from backend.utils.validators import hash_password
 
-def seed_database(db_path=None):
-    """Initializes high-performance schema and seeds realistic store data if empty."""
+def seed_database(db_path=None, with_demo_data=False):
+    """Initializes the schema; sample records are available only to test fixtures."""
     init_db(db_path)
     conn = get_db(db_path)
     try:
+        if not with_demo_data:
+            conn.executemany(
+                """INSERT INTO system_settings (key, value) VALUES (?, ?)
+                ON CONFLICT(key) DO NOTHING""",
+                [
+                    ("company_name", "StockFlow Store"),
+                    ("currency", "INR"),
+                    ("default_low_stock_threshold", "15"),
+                    ("enable_realtime_alerts", "true"),
+                    ("items_per_page", "15"),
+                    ("cluster_region", "local-store"),
+                    ("backup_schedule", "daily_2200_close"),
+                ],
+            )
+            conn.commit()
+            return
         # 1. Seed Users (All 5 Roles: shopkeeper, wholesaler, manager, staff, admin + backward compat)
         user_count = conn.execute("SELECT COUNT(*) AS count FROM users").fetchone()["count"]
         if user_count == 0:
@@ -116,7 +132,7 @@ def seed_database(db_path=None):
         if settings_count == 0:
             settings_to_seed = [
                 ("company_name", "StockFlow General Store"),
-                ("currency", "USD"),
+                ("currency", "INR"),
                 ("default_low_stock_threshold", "15"),
                 ("enable_realtime_alerts", "true"),
                 ("items_per_page", "15"),
@@ -133,5 +149,5 @@ def seed_database(db_path=None):
         conn.close()
 
 if __name__ == "__main__":
-    seed_database()
-    print("Database seeded with store data.")
+    seed_database(with_demo_data=True)
+    print("Database seeded with sample store data.")

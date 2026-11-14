@@ -9,8 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="app.css">
-    <script type="module" src="app.js"></script>
+    <link rel="stylesheet" href="app.css?v=20261114-2">
+    <script>document.documentElement.dataset.theme = localStorage.getItem('stockflow-theme') || 'light';</script>
+    <script type="module" src="app.js?v=20261114-2"></script>
   </head>
   <body>
     <div class="app-shell">
@@ -100,6 +101,9 @@
             </div>
           </div>
           <div class="topbar-actions">
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 15.7A8.5 8.5 0 0 1 8.3 3.4 8.5 8.5 0 1 0 20.6 15.7Z"/></svg>
+            </button>
             <div id="topbar-view-actions" class="view-actions"></div>
             <button class="topbar-user" id="topbar-user" data-action="open-profile" type="button" title="Account &amp; password">Loading…</button>
           </div>

@@ -1,6 +1,7 @@
 import pytest
 import tempfile
 import os
+import sqlite3
 from backend.app import create_app
 from backend.config import Config
 from backend.database.seed import seed_database
@@ -14,7 +15,7 @@ def test_client():
         TESTING = True
         DATABASE_PATH = temp_db
 
-    seed_database(temp_db)
+    seed_database(temp_db, with_demo_data=True)
     app = create_app(CustomTestConfig)
     with app.test_client() as client:
         yield client
@@ -72,7 +73,7 @@ def test_inventory_overview(test_client, auth_headers):
     data = res.get_json()["data"]
     assert data["total_items"] >= 12
     assert data["total_stock"] > 0
-    assert data["currency"] == "USD"
+    assert data["currency"] == "INR"
 
 def test_inventory_alerts(test_client, auth_headers):
     res = test_client.get("/api/inventory/alerts", headers=auth_headers)
@@ -154,19 +155,40 @@ def test_inventory_settings_get_and_put(test_client, auth_headers):
     verify_res = test_client.get("/api/inventory/settings", headers=auth_headers)
     assert verify_res.get_json()["data"]["settings"]["company_name"] == "Apollo Space Logistics"
 
-def test_convert_catalog_currency(test_client, shopkeeper_headers, user_headers):
-    # Regular operator forbidden
-    denied = test_client.post("/api/inventory/convert-prices", headers=user_headers, json={"target_currency": "INR", "rate": 80})
+def test_currency_is_fixed_to_inr(test_client, auth_headers):
+    settings = test_client.get("/api/inventory/settings", headers=auth_headers).get_json()["data"]["settings"]
+    assert settings["currency"] == "INR"
+    rejected = test_client.put("/api/inventory/settings", headers=auth_headers, json={"currency": "USD"})
+    assert rejected.status_code == 400
+    assert "currency" in rejected.get_json()["errors"]
+    assert test_client.post("/api/inventory/convert-prices", headers=auth_headers, json={"target_currency": "INR", "rate": 80}).status_code == 405
+
+def test_store_data_reset_role_and_preserves_access(test_client, auth_headers, shopkeeper_headers, user_headers):
+    denied = test_client.delete("/api/inventory/store-data", headers=user_headers)
     assert denied.status_code == 403
 
-    # Invalid rate rejected
-    bad_rate = test_client.post("/api/inventory/convert-prices", headers=shopkeeper_headers, json={"target_currency": "INR", "rate": -5})
-    assert bad_rate.status_code == 400
-    assert "rate" in bad_rate.get_json()["errors"]
+    reset = test_client.delete("/api/inventory/store-data", headers=shopkeeper_headers)
+    assert reset.status_code == 200
+    for endpoint, key in (("/api/products", "products"), ("/api/suppliers", "suppliers"), ("/api/movements", "movements")):
+        response = test_client.get(endpoint, headers=auth_headers)
+        assert response.status_code == 200
+        assert reset.get_json()["data"]["deleted"][key] > 0
+        assert response.get_json()["data"][key] == []
+    assert test_client.get("/api/auth/me", headers=auth_headers).status_code == 200
+    assert test_client.get("/api/inventory/settings", headers=auth_headers).get_json()["data"]["settings"]["currency"] == "INR"
 
-    before_prod = test_client.get("/api/products/1", headers=shopkeeper_headers).get_json()["data"]["product"]
-    res = test_client.post("/api/inventory/convert-prices", headers=shopkeeper_headers, json={"target_currency": "INR", "rate": 80})
-    assert res.status_code == 200
-    assert res.get_json()["data"]["currency"] == "INR"
-    after_prod = test_client.get("/api/products/1", headers=shopkeeper_headers).get_json()["data"]["product"]
-    assert after_prod["unit_price"] == round(before_prod["unit_price"] * 80, 2)
+def test_default_database_initialization_has_no_demo_records():
+    fd, temp_db = tempfile.mkstemp(suffix=".db")
+    os.close(fd)
+    try:
+        seed_database(temp_db)
+        conn = sqlite3.connect(temp_db)
+        try:
+            assert conn.execute("SELECT COUNT(*) FROM products").fetchone()[0] == 0
+            assert conn.execute("SELECT COUNT(*) FROM suppliers").fetchone()[0] == 0
+            assert conn.execute("SELECT COUNT(*) FROM users").fetchone()[0] == 0
+            assert conn.execute("SELECT value FROM system_settings WHERE key = 'currency'").fetchone()[0] == "INR"
+        finally:
+            conn.close()
+    finally:
+        os.remove(temp_db)

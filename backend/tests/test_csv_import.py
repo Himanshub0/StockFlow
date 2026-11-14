@@ -19,7 +19,7 @@ def test_client():
         TESTING = True
         DATABASE_PATH = temp_db
 
-    seed_database(temp_db)
+    seed_database(temp_db, with_demo_data=True)
     app = create_app(CustomTestConfig)
     with app.test_client() as client:
         yield client
@@ -95,73 +95,73 @@ def test_missing_headers_and_empty_csv_rejected(test_client, admin_headers):
 
 
 def test_products_csv_auto_creates_suppliers_when_imported_standalone(test_client, admin_headers):
-    with open(DATA_DIR / "apple_store_products.csv", "rb") as f:
+    with open(DATA_DIR / "products.csv", "rb") as f:
         res = test_client.post(
             "/api/products/import",
             headers=admin_headers,
-            data={"file": (f, "apple_store_products.csv"), "mode": "replace"},
+            data={"file": (f, "products.csv"), "mode": "replace"},
             content_type="multipart/form-data",
         )
     assert res.status_code == 201
     data = res.get_json()["data"]
-    assert data["inserted"] == 363
+    assert data["inserted"] == 79
     assert data["error_count"] == 0
-    assert data["suppliers_created"] >= 9
+    assert data["suppliers_created"] >= 10
 
     prods_res = test_client.get("/api/products?limit=2000", headers=admin_headers)
     assert prods_res.status_code == 200
     prods_data = prods_res.get_json()["data"]
-    assert prods_data["total"] == 363
-    assert len(prods_data["products"]) == 363
-    assert len(prods_data["categories"]) == 11
+    assert prods_data["total"] == 79
+    assert len(prods_data["products"]) == 79
+    assert len(prods_data["categories"]) == 5
     # Verify supplier got linked
     assert all(p["supplier_name"] for p in prods_data["products"])
 
 
 def test_full_apple_store_dataset_import_and_analytics(test_client, admin_headers):
-    # 1. Replace suppliers with Apple Store suppliers
-    with open(DATA_DIR / "apple_store_suppliers.csv", "rb") as f:
+    # 1. Replace suppliers with tech store suppliers
+    with open(DATA_DIR / "suppliers.csv", "rb") as f:
         s_res = test_client.post(
             "/api/suppliers/import",
             headers=admin_headers,
-            data={"file": (f, "apple_store_suppliers.csv"), "mode": "replace"},
+            data={"file": (f, "suppliers.csv"), "mode": "replace"},
             content_type="multipart/form-data",
         )
     assert s_res.status_code == 201
-    assert s_res.get_json()["data"]["inserted"] == 10
+    assert s_res.get_json()["data"]["inserted"] == 12
     assert s_res.get_json()["data"]["error_count"] == 0
 
-    # 2. Replace products with Apple Store catalog (363 SKUs)
-    with open(DATA_DIR / "apple_store_products.csv", "rb") as f:
+    # 2. Replace products with tech store catalog (79 SKUs)
+    with open(DATA_DIR / "products.csv", "rb") as f:
         p_res = test_client.post(
             "/api/products/import",
             headers=admin_headers,
-            data={"file": (f, "apple_store_products.csv"), "mode": "replace"},
+            data={"file": (f, "products.csv"), "mode": "replace"},
             content_type="multipart/form-data",
         )
     assert p_res.status_code == 201
     p_data = p_res.get_json()["data"]
-    assert p_data["inserted"] == 363
+    assert p_data["inserted"] == 79
     assert p_data["suppliers_created"] == 0
     assert p_data["error_count"] == 0
 
-    # 3. Import movements in apply_stock=true mode -> all 490 rows succeed
-    with open(DATA_DIR / "apple_store_movements.csv", "rb") as f:
+    # 3. Import movements in apply_stock=true mode -> all 104 rows succeed
+    with open(DATA_DIR / "movements.csv", "rb") as f:
         m_res = test_client.post(
             "/api/movements/import",
             headers=admin_headers,
-            data={"file": (f, "apple_store_movements.csv"), "mode": "replace", "apply_stock": "true"},
+            data={"file": (f, "movements.csv"), "mode": "replace", "apply_stock": "true"},
             content_type="multipart/form-data",
         )
     assert m_res.status_code == 201
     m_data = m_res.get_json()["data"]
-    assert m_data["inserted"] == 490
+    assert m_data["inserted"] == 104
     assert m_data["error_count"] == 0
 
     # 4. Verify overview, alerts, movements, and reports
     overview = test_client.get("/api/inventory/overview", headers=admin_headers).get_json()["data"]
-    assert overview["total_items"] == 363
-    assert overview["total_stock"] > 5000
+    assert overview["total_items"] == 79
+    assert overview["total_stock"] > 1000
     assert overview["low_stock_count"] > 0
     assert overview["out_of_stock_count"] > 0
 
@@ -169,39 +169,39 @@ def test_full_apple_store_dataset_import_and_analytics(test_client, admin_header
     assert len(alerts) == overview["low_stock_count"] + overview["out_of_stock_count"]
 
     movements = test_client.get("/api/movements?limit=1000", headers=admin_headers).get_json()["data"]["movements"]
-    assert len(movements) >= 490
+    assert len(movements) >= 104
 
     reports = test_client.get("/api/reports/summary", headers=admin_headers).get_json()["data"]
-    assert len(reports["categories"]) == 11
+    assert len(reports["categories"]) == 5
     assert len(reports["movements"]) == 4
 
 
 def test_movements_historical_mode_preserves_stock(test_client, admin_headers):
-    with open(DATA_DIR / "apple_store_suppliers.csv", "rb") as f:
+    with open(DATA_DIR / "suppliers.csv", "rb") as f:
         test_client.post(
             "/api/suppliers/import",
             headers=admin_headers,
-            data={"file": (f, "apple_store_suppliers.csv"), "mode": "replace"},
+            data={"file": (f, "suppliers.csv"), "mode": "replace"},
             content_type="multipart/form-data",
         )
-    with open(DATA_DIR / "apple_store_products.csv", "rb") as f:
+    with open(DATA_DIR / "products.csv", "rb") as f:
         test_client.post(
             "/api/products/import",
             headers=admin_headers,
-            data={"file": (f, "apple_store_products.csv"), "mode": "replace"},
+            data={"file": (f, "products.csv"), "mode": "replace"},
             content_type="multipart/form-data",
         )
     before = test_client.get("/api/inventory/overview", headers=admin_headers).get_json()["data"]
 
-    with open(DATA_DIR / "apple_store_movements.csv", "rb") as f:
+    with open(DATA_DIR / "movements.csv", "rb") as f:
         m_res = test_client.post(
             "/api/movements/import",
             headers=admin_headers,
-            data={"file": (f, "apple_store_movements.csv"), "mode": "replace", "apply_stock": "false"},
+            data={"file": (f, "movements.csv"), "mode": "replace", "apply_stock": "false"},
             content_type="multipart/form-data",
         )
     assert m_res.status_code == 201
-    assert m_res.get_json()["data"]["inserted"] == 490
+    assert m_res.get_json()["data"]["inserted"] == 104
 
     after = test_client.get("/api/inventory/overview", headers=admin_headers).get_json()["data"]
     assert after == before

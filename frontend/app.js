@@ -66,9 +66,8 @@ import {
   applyUserToDom,
   csvImportForm,
   downloadTemplate,
-  loadDemoData,
+  resetStoreData,
   loadSettings,
-  openCurrencyConverterModal,
   openProfileModal,
   renderSettings,
   renderTeamAdmin,
@@ -272,26 +271,8 @@ async function handleSubmit(form) {
       state.productPage = 1;
       state.movementPage = 1;
       refreshAlertBadge();
-      showMessage(`Settings saved. Active currency: ${state.settings.currency}.`, 'success');
-      await navigate('settings', { keepContent: true });
-      return;
-    }
-
-    if (form.dataset.form === 'currency-convert') {
-      clearFormErrors(form);
-      const fd = new FormData(form);
-      const target_currency = String(fd.get('target_currency') || '').toUpperCase();
-      const rate = Number(fd.get('rate'));
-      if (!Number.isFinite(rate) || rate <= 0) {
-        setFieldError(form, 'rate', 'Enter a positive multiplier (e.g. 0.012 or 83.5).');
-        setFormBanner(form, 'Conversion rate must be greater than zero.', 'error');
-        return;
-      }
-      const res = await api.post('/api/inventory/convert-prices', { target_currency, rate });
-      state.settings.currency = res.currency || target_currency;
-      state.productCache.clear();
-      closeModal();
-      showMessage(`Converted ${res.products_updated} product prices to ${state.settings.currency}.`, 'success');
+      state.settings.currency = 'INR';
+      showMessage('Settings saved. All prices are displayed in ₹ INR.', 'success');
       await navigate('settings', { keepContent: true });
       return;
     }
@@ -390,8 +371,7 @@ async function handleAction(action, target) {
   if (action === 'export-movements') return exportMovementsCsv();
   if (action === 'export-report') return exportReportCsv();
   if (action === 'download-template') return downloadTemplate();
-  if (action === 'load-demo-data') return loadDemoData();
-  if (action === 'open-currency-converter') return openCurrencyConverterModal();
+  if (action === 'reset-store-data') return resetStoreData();
   if (action === 'logout') return signOut();
   if (action === 'save-settings') return document.querySelector('[data-form="settings"]')?.requestSubmit();
   if (action === 'add-movement') return movementForm();
@@ -525,6 +505,18 @@ async function handleAction(action, target) {
 }
 
 document.addEventListener('click', (event) => {
+  const themeToggle = event.target.closest('#theme-toggle');
+  if (themeToggle) {
+    const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem('stockflow-theme', theme);
+    themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
+    themeToggle.setAttribute('title', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
+    themeToggle.querySelector('path').setAttribute('d', theme === 'dark'
+      ? 'M12 3v2m0 14v2m9-9h-2M5 12H3m15.4-6.4-1.4 1.4M7 17l-1.4 1.4m0-12.8L7 7m10 10 1.4 1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z'
+      : 'M20.6 15.7A8.5 8.5 0 0 1 8.3 3.4 8.5 8.5 0 1 0 20.6 15.7Z');
+    return;
+  }
   const actionEl = event.target.closest('[data-action]');
   if (actionEl) {
     Promise.resolve(handleAction(actionEl.dataset.action, actionEl)).catch((err) => {
@@ -639,6 +631,13 @@ window.addEventListener('hashchange', () => {
 });
 
 async function boot() {
+  const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+  const themeToggle = document.querySelector('#theme-toggle');
+  themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
+  themeToggle.setAttribute('title', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
+  themeToggle.querySelector('path').setAttribute('d', theme === 'dark'
+    ? 'M12 3v2m0 14v2m9-9h-2M5 12H3m15.4-6.4-1.4 1.4M7 17l-1.4 1.4m0-12.8L7 7m10 10 1.4 1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z'
+    : 'M20.6 15.7A8.5 8.5 0 0 1 8.3 3.4 8.5 8.5 0 1 0 20.6 15.7Z');
   if (!localStorage.getItem('stockflow_token')) {
     return signOut(false, 'Please sign in to open your workspace.');
   }

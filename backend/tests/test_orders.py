@@ -15,7 +15,7 @@ def test_client():
         TESTING = True
         DATABASE_PATH = temp_db
 
-    seed_database(temp_db)
+    seed_database(temp_db, with_demo_data=True)
     app = create_app(CustomTestConfig)
     with app.test_client() as client:
         yield client

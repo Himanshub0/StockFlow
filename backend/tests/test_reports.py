@@ -15,7 +15,7 @@ def test_client():
         TESTING = True
         DATABASE_PATH = temp_db
 
-    seed_database(temp_db)
+    seed_database(temp_db, with_demo_data=True)
     app = create_app(CustomTestConfig)
     with app.test_client() as client:
         yield client
@@ -40,7 +40,7 @@ def test_reports_summary_default_and_filtered(test_client, auth_headers):
     res = test_client.get("/api/reports/summary", headers=auth_headers)
     assert res.status_code == 200
     data = res.get_json()["data"]
-    assert data["currency"] == "USD"
+    assert data["currency"] == "INR"
     assert len(data["categories"]) >= 5
     assert len(data["movements"]) >= 3
     assert data["totals"]["total_products"] >= 15

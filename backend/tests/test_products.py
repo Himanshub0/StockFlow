@@ -14,7 +14,7 @@ def test_client():
         TESTING = True
         DATABASE_PATH = temp_db
 
-    seed_database(temp_db)
+    seed_database(temp_db, with_demo_data=True)
     app = create_app(CustomTestConfig)
     with app.test_client() as client:
         yield client
@@ -184,4 +184,4 @@ def test_export_products_csv(test_client, auth_headers):
     text = res.data.decode("utf-8")
     assert "sku,name,category,unit_price,currency" in text
     assert "SKU-9021" in text
-    assert ",USD," in text
+    assert ",INR," in text
