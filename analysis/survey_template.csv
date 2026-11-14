@@ -1,6 +1,0 @@
-participant_id,role,ease_of_search,intake_speed_seconds,clarity_rating,error_count,feedback
-P-101,Warehouse Specialist,5,4.2,5,0,Very clean search interface
-P-102,Logistics Coordinator,4,6.1,4,0,Easy to understand stock warnings
-P-103,Purchasing Agent,4,5.0,4,1,Need bulk export to CSV
-P-104,Operations Lead,5,3.8,5,0,Keyboard shortcuts are helpful
-P-105,Floor Auditor,5,4.5,5,0,Transfer tracking works well

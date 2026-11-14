@@ -6,20 +6,18 @@ StockFlow is an inventory and stock management prototype.
 
 ```text
 StockFlow/
-├── frontend/          # Web frontend (HTML, CSS, Vanilla JS)
-│   ├── assets/        # Images, icons, and fonts
-│   ├── css/           # Main styling, layout, variables, and page-specific styles
-│   └── js/            # Client logic, router, API clients, components, and pages
-├── backend/           # Flask API backend
+├── frontend/          # Web frontend (HTML, CSS, Vanilla JS modules)
+│   ├── modules/       # Views (inventory, operations, admin) and state manager
+│   ├── app.html       # Main application workspace
+│   └── login.html     # Authentication portal
+├── backend/           # Flask REST API backend
 │   ├── database/      # SQLite connection, schema, and seed scripts
 │   ├── routes/        # API route blueprints
 │   ├── services/      # Business logic layer
-│   ├── utils/         # Validators and API response helpers
+│   ├── utils/         # Validators, auth decorators, and response helpers
 │   └── tests/         # Unit and integration test suites
-├── analysis/          # Analytical scripts, stats, and testing templates
-├── research/          # UX research, interviews, empathy maps, and personas
 ├── docs/              # System documentation, DB design, API spec, testing guide
-├── instance/          # Database instances
+├── instance/          # SQLite database storage (stockflow.db)
 ├── requirements.txt   # Python backend dependencies
 ├── .env.example       # Example environment variables
 ├── .gitignore         # Git ignore rules
