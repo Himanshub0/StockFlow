@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" data-type="software" data-site-kind="software">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="StockFlow inventory and retail management workspace.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23163f2f'/%3E%3Crect x='6' y='16' width='5' height='10' rx='2' fill='%23d8f06e'/%3E%3Crect x='13.5' y='11' width='5' height='15' rx='2' fill='%23d8f06e'/%3E%3Crect x='21' y='6' width='5' height='20' rx='2' fill='%23d8f06e'/%3E%3C/svg%3E">
+    <title>Workspace — StockFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="app.css">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="app-sidebar" id="app-sidebar" aria-label="Workspace navigation">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>StockFlow</span>
+        </a>
+        <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-expanded="true" aria-label="Collapse sidebar" title="Collapse sidebar" data-tooltip="Collapse sidebar">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          <span>Collapse</span>
+        </button>
+        <button class="mobile-close" id="mobile-close" type="button" aria-label="Close navigation">×</button>
+
+        <p class="side-label">Overview</p>
+        <button class="side-link active" data-view="dashboard" type="button" title="Dashboard" data-tooltip="Dashboard">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+          <span>Dashboard</span>
+        </button>
+
+        <p class="side-label">Inventory</p>
+        <button class="side-link" data-view="products" type="button" title="Products" data-tooltip="Products">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4zM4 7l3-4h10l3 4M9 12h6"/></svg>
+          <span>Products</span>
+        </button>
+        <button class="side-link" data-view="movements" type="button" title="Stock movements" data-tooltip="Stock movements">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M10 7h7v7M7 7v6m0 0H1"/></svg>
+          <span>Stock movements</span>
+        </button>
+        <button class="side-link" data-view="alerts" type="button" title="Stock alerts" data-tooltip="Stock alerts">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 4.6 2.9 18a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 4.6a2 2 0 0 0-3.4 0z"/></svg>
+          <span>Stock alerts</span>
+          <small id="sidebar-alert-badge" hidden>0</small>
+        </button>
+
+        <p class="side-label">Operations</p>
+        <button class="side-link" data-view="purchases" type="button" title="Purchase orders" data-tooltip="Purchase orders">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>Purchase orders</span>
+        </button>
+        <button class="side-link" data-view="sales" type="button" title="Sales &amp; billing" data-tooltip="Sales &amp; billing">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2zM9 9h6M9 13h4"/></svg>
+          <span>Sales &amp; billing</span>
+        </button>
+        <button class="side-link" data-view="suppliers" type="button" title="Suppliers" data-tooltip="Suppliers">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 19v-2a4 4 0 0 0-8 0v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM21 19v-1.5a3 3 0 0 0-2.2-2.9M17 4.2a3 3 0 0 1 0 5.6"/></svg>
+          <span>Suppliers</span>
+        </button>
+
+        <p class="side-label">Insights</p>
+        <button class="side-link" data-view="reports" type="button" title="Reports" data-tooltip="Reports">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
+          <span>Reports</span>
+        </button>
+
+        <p class="side-label">Configuration</p>
+        <button class="side-link" id="nav-admin-link" data-view="team" type="button" title="Team &amp; audit" data-tooltip="Team &amp; audit" hidden>
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Team &amp; audit</span>
+        </button>
+        <button class="side-link" data-view="settings" type="button" title="Settings" data-tooltip="Settings">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M2 14h4M10 8h4M18 16h4"/></svg>
+          <span>Settings</span>
+        </button>
+
+        <div class="sidebar-foot">
+          <button class="sidebar-profile-btn" data-action="open-profile" type="button" title="Account &amp; password" data-tooltip="Account &amp; password">
+            <span class="avatar" id="sidebar-avatar">SF</span>
+            <span class="sidebar-user-meta"><b id="sidebar-user">Loading</b><small id="sidebar-role">Workspace</small></span>
+          </button>
+          <button class="sidebar-logout" id="sidebar-logout" data-action="logout" type="button" title="Log out" data-tooltip="Log out" aria-label="Log out">
+            <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          </button>
+        </div>
+      </aside>
+      <div class="app-scrim" id="app-scrim"></div>
+      <main class="app-main">
+        <header class="app-topbar">
+          <div class="topbar-start">
+            <button class="mobile-menu" id="mobile-menu" type="button" aria-label="Open navigation">
+              <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            <div class="topbar-title-group">
+              <p class="eyebrow" id="page-kicker">Workspace</p>
+              <h1 id="page-title">Dashboard</h1>
+              <p class="page-subtitle" id="page-subtitle">Urgent stock alerts, inventory valuation, and recent stock flow.</p>
+            </div>
+          </div>
+          <div class="topbar-actions">
+            <div id="topbar-view-actions" class="view-actions"></div>
+            <button class="topbar-user" id="topbar-user" data-action="open-profile" type="button" title="Account &amp; password">Loading…</button>
+          </div>
+        </header>
+        <div id="app-message" class="app-message" role="status" aria-live="polite" hidden>
+          <span id="app-message-text"></span>
+          <button type="button" id="app-message-close" class="message-close" aria-label="Dismiss message">×</button>
+        </div>
+        <section id="app-view" aria-live="polite">
+          <div class="loading-state"><span></span><span></span><span></span><p>Connecting to your workspace…</p></div>
+        </section>
+      </main>
+    </div>
+    <dialog id="entity-modal" class="entity-modal"><div id="modal-content"></div></dialog>
+  </body>
+</html>

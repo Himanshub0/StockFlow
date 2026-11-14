@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" data-type="software" data-site-kind="software">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Create your StockFlow account and bring your store operations into one clear system.">
+    <meta name="page-type" content="software">
+    <meta name="site-kind" content="software">
+    <meta name="theme-color" content="#163f2f">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23163f2f'/%3E%3Crect x='6' y='16' width='5' height='10' rx='2' fill='%23d8f06e'/%3E%3Crect x='13.5' y='11' width='5' height='15' rx='2' fill='%23d8f06e'/%3E%3Crect x='21' y='6' width='5' height='20' rx='2' fill='%23d8f06e'/%3E%3C/svg%3E">
+    <title>Create your StockFlow account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="register.css">
+    <script src="register.js" defer></script>
+  </head>
+  <body>
+    <main class="register-shell">
+      <header class="register-top"><div class="wrap"><a class="back-link" href="index.html"><span aria-hidden="true">←</span> Back to StockFlow</a></div></header>
+
+      <section class="register-layout" aria-labelledby="register-title"><div class="wrap register-grid">
+        <div class="register-intro">
+          <div class="brand" aria-label="StockFlow">
+            <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>StockFlow</span>
+          </div>
+          <p class="eyebrow">A calmer way to run the shop</p>
+          <h1 id="register-title">Put your store<br><em>in motion.</em></h1>
+          <p class="intro-copy">Create one workspace for products, stock movements, suppliers, and low-stock alerts.</p>
+          <div class="workspace-preview" aria-label="StockFlow workspace preview"><div class="preview-top"><span><i></i><i></i><i></i></span><b>stockflow / today</b><small>LIVE</small></div><div class="preview-stats"><span><small>Products</small><strong>248</strong></span><span><small>Catalog value</small><strong>$14.8k</strong></span><span><small>Needs attention</small><strong>07</strong></span></div><div class="preview-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="signal-list" aria-label="StockFlow benefits">
+            <span><b>01</b> See what needs attention</span>
+            <span><b>02</b> Keep every workflow connected</span>
+            <span><b>03</b> Start with a real account</span>
+          </div>
+        </div>
+
+        <div class="register-card">
+          <div class="card-heading">
+            <div>
+              <p class="eyebrow">New workspace</p>
+              <h2>Create your account</h2>
+            </div>
+            <span class="step-mark" aria-hidden="true">01<span>/</span>01</span>
+          </div>
+
+          <div id="form-message" class="form-message" role="status" aria-live="polite" hidden></div>
+
+          <form id="register-form" novalidate>
+            <div class="field-grid">
+              <label class="field field-wide" for="full-name">Full name <input id="full-name" name="full_name" autocomplete="name" required placeholder="Your name"><span class="field-error" hidden></span></label>
+              <label class="field" for="username">Username <input id="username" name="username" autocomplete="username" minlength="3" required placeholder="yourstore"><span class="field-error" hidden></span></label>
+              <label class="field" for="role">Role <select id="role" name="role"><option value="shopkeeper">Shopkeeper</option><option value="staff">Staff</option><option value="wholesaler">Wholesaler</option></select><span class="field-hint">Administrators promote Manager or Admin roles later.</span></label>
+              <label class="field field-wide" for="email">Email address <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@store.example"><span class="field-error" hidden></span></label>
+              <label class="field" for="password">Password
+                <div class="password-wrap">
+                  <input id="password" name="password" type="password" autocomplete="new-password" minlength="6" required placeholder="6+ characters">
+                  <button class="pw-toggle" type="button" data-toggle-pw="password" aria-pressed="false" aria-label="Show password">Show</button>
+                </div>
+                <span class="field-error" hidden></span>
+              </label>
+              <label class="field" for="confirm-password">Confirm password
+                <div class="password-wrap">
+                  <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" minlength="6" required placeholder="Repeat password">
+                  <button class="pw-toggle" type="button" data-toggle-pw="confirm-password" aria-pressed="false" aria-label="Show confirm password">Show</button>
+                </div>
+                <span class="field-error" hidden></span>
+              </label>
+            </div>
+            <div class="field terms-wrap">
+              <label class="terms" for="terms"><input id="terms" type="checkbox" required><span>I’m ready to manage my store with StockFlow.</span></label>
+              <span class="field-error" id="terms-error" hidden></span>
+            </div>
+            <button class="submit-button" type="submit"><span id="submit-label">Create account</span><span aria-hidden="true">↗</span></button>
+            <p class="form-note">Your account is created through the connected StockFlow backend.</p>
+            <p class="account-switch">Already a user? <a href="login.html">Log in here <span aria-hidden="true">↗</span></a></p>
+          </form>
+        </div>
+      </div></section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+task_id,task_name,expected_time_sec,actual_time_sec,completed_successfully,notes
+T-1,Search SKU and check stock,5,3.2,TRUE,Quick response
+T-2,Record Inbound Movement,15,11.5,TRUE,Straightforward form
+T-3,Create New Product,30,22.0,TRUE,Validation prevented negative stock
+T-4,Transfer Stock to Destination,20,16.4,TRUE,Both products updated accurately

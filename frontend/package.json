@@ -1,0 +1,28 @@
+{
+  "name": "diwali_project",
+  "version": "1.0.0",
+  "description": "StockFlow is an inventory and stock management prototype.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Himanshub0/StockFlow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Himanshub0/StockFlow/issues"
+  },
+  "homepage": "https://github.com/Himanshub0/StockFlow#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "tailwindcss": "^4.3.5"
+  }
+}

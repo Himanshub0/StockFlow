@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" data-type="software" data-site-kind="software">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Log in to your StockFlow workspace.">
+    <meta name="page-type" content="software">
+    <meta name="site-kind" content="software">
+    <meta name="theme-color" content="#163f2f">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23163f2f'/%3E%3Crect x='6' y='16' width='5' height='10' rx='2' fill='%23d8f06e'/%3E%3Crect x='13.5' y='11' width='5' height='15' rx='2' fill='%23d8f06e'/%3E%3Crect x='21' y='6' width='5' height='20' rx='2' fill='%23d8f06e'/%3E%3C/svg%3E">
+    <title>Log in — StockFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="login.css">
+    <script src="login.js" defer></script>
+  </head>
+  <body>
+    <main class="login-shell">
+      <a class="back-link" href="index.html"><span aria-hidden="true">←</span> Back to StockFlow</a>
+      <section class="login-card" aria-labelledby="login-title">
+        <div class="brand" aria-label="StockFlow"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>StockFlow</span></div>
+        <p class="eyebrow">Welcome back</p>
+        <h1 id="login-title">Good to see<br><em>you again.</em></h1>
+        <p class="login-copy">Sign in to pick up the day exactly where you left it.</p>
+        <div id="login-message" class="form-message" role="status" aria-live="polite" hidden></div>
+        <form id="login-form" novalidate>
+          <label class="field field-wide" for="identifier">Email or username <input id="identifier" name="identifier" autocomplete="username" required placeholder="you@store.example" aria-describedby="identifier-error"><span class="field-error" id="identifier-error" hidden></span></label>
+          <label class="field field-wide" for="login-password">Password
+            <div class="password-wrap">
+              <input id="login-password" name="password" type="password" autocomplete="current-password" required placeholder="Your password" aria-describedby="login-password-error">
+              <button class="pw-toggle" type="button" data-toggle-pw="login-password" aria-pressed="false" aria-label="Show password">Show</button>
+            </div>
+            <span class="field-error" id="login-password-error" hidden></span>
+          </label>
+          <button class="submit-button" type="submit"><span id="login-submit-label">Log in to StockFlow</span><span aria-hidden="true">↗</span></button>
+        </form>
+        <p class="account-switch">New to StockFlow? <a href="register.html">Register now <span aria-hidden="true">↗</span></a></p>
+      </section>
+    </main>
+  </body>
+</html>

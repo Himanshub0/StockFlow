@@ -51,3 +51,9 @@ instance/*.db
 .agents/
 skills-lock.json
 
+# Local design tool browser profiles and migration reference copies
+.taste-skill/
+/frontend1/
+/temp/
+/data/
+

@@ -1,68 +1,100 @@
-<!DOCTYPE html>
-<html lang="en" data-type="software" data-theme="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <meta name="page-type" content="software">
-  <meta name="site-kind" content="software">
-  <meta name="description" content="StockFlow — Enterprise Smart Inventory Management System. Real-time SKU tracking, stock movements, supplier tiers, and SAP Fiori inspired inventory operations.">
-  <meta name="theme-color" content="#090D16">
-  <title>StockFlow — Smart Enterprise Inventory Platform</title>
+<!doctype html>
+<html lang="en" data-type="software" data-site-kind="software" data-motion="quiet">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="StockFlow helps small retail stores manage product catalogs, stock movements, low-stock alerts, suppliers, and inventory reports in one clear workspace.">
+    <meta name="page-type" content="software">
+    <meta name="site-kind" content="software">
+    <meta property="og:title" content="StockFlow — Retail inventory, under control">
+    <meta property="og:description" content="Manage products, record stock movements, monitor alerts, and organize suppliers in one simple system.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#f7f8f6">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23163f2f'/%3E%3Crect x='6' y='16' width='5' height='10' rx='2' fill='%23d8f06e'/%3E%3Crect x='13.5' y='11' width='5' height='15' rx='2' fill='%23d8f06e'/%3E%3Crect x='21' y='6' width='5' height='20' rx='2' fill='%23d8f06e'/%3E%3C/svg%3E">
+    <title>StockFlow — Retail inventory, under control</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="container nav-wrap">
+        <a class="brand" href="#home" aria-label="StockFlow home">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span>StockFlow</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation">
+          <span></span><span></span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+          <a class="nav-link is-active" href="#home">Home</a>
+          <a class="nav-link" href="#features">Features</a>
+          <a class="nav-link" href="#how-it-works">How It Works</a>
+          <a class="nav-link" href="#about">About</a>
+          <a class="nav-link" href="login.html">Log in</a>
+          <a class="button button-small nav-cta" href="register.html">Get Started</a>
+        </nav>
+      </div>
+    </header>
 
-  <!-- Prevent Theme Flash -->
-  <script>
-    (function() {
-      try {
-        var savedTheme = localStorage.getItem('stockflow_theme');
-        if (savedTheme === 'light' || savedTheme === 'dark') {
-          document.documentElement.setAttribute('data-theme', savedTheme);
-        }
-      } catch (e) {}
-    })();
-  </script>
+    <main id="main-content">
+      <section id="home" class="hero section-shell" data-section data-enter>
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">Smarter inventory management</p>
+            <h1>Your store.<br><em>Your stock.</em><br>Under control.</h1>
+            <p class="hero-lede">Manage your product catalog, record stock movements, process purchase orders and sales invoices, catch low-stock items early, and coordinate suppliers — all in one clear workspace.</p>
+            <div class="hero-actions">
+              <a class="button" href="#features">Explore Features <span aria-hidden="true">↗</span></a>
+              <a class="text-link" href="#how-it-works">How It Works <span aria-hidden="true">↓</span></a>
+            </div>
+            <p class="hero-note"><span class="status-dot" aria-hidden="true"></span> Built for the rhythm of everyday retail</p>
+          </div>
+          <div class="dashboard-hero reveal reveal-delay" data-ui aria-label="StockFlow inventory overview preview">
+            <div class="dashboard-window">
+              <div class="window-bar"><div class="window-dots"><span></span><span></span><span></span></div><span class="window-title">stockflow / dashboard</span><span class="window-date">Live workspace</span></div>
+              <div class="dashboard-body">
+                <aside class="dashboard-sidebar">
+                  <div class="mini-brand"><span class="brand-mark small"><span></span><span></span><span></span></span><b>StockFlow</b></div>
+                  <div class="side-group"><small>Workspace</small><div class="side-item active"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg> Dashboard</div><div class="side-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4zM4 7l3-4h10l3 4M9 12h6"/></svg> Products</div><div class="side-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M10 7h7v7"/></svg> Movements</div><div class="side-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 4.6 2.9 18a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 4.6a2 2 0 0 0-3.4 0z"/></svg> Alerts</div></div>
+                  <div class="side-group"><small>Manage</small><div class="side-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 19v-2a4 4 0 0 0-8 0v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> Suppliers</div><div class="side-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M12 20V4M20 20v-7"/></svg> Reports</div></div>
+                  <div class="sidebar-foot"><span class="avatar">SF</span><span>Store Manager</span></div>
+                </aside>
+                <div class="dashboard-main">
+                  <div class="dashboard-heading"><div><span class="dash-kicker">Store overview</span><h2>Inventory summary</h2></div><span class="notification" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg><i></i></span></div>
+                  <div class="stat-grid"><div class="stat-card"><span>Total products</span><strong>248</strong><small class="up">11 categories</small></div><div class="stat-card"><span>Catalog value</span><strong>$14,820</strong><small class="up">In USD (configurable)</small></div><div class="stat-card warning"><span>Stock alerts</span><strong>07</strong><small class="down">2 out of stock</small></div></div>
+                  <div class="data-grid"><div class="chart-card"><div class="card-heading"><div><span class="dash-kicker">Movement volume</span><strong>482 units</strong></div><span class="period">Recent flow</span></div><div class="chart"><svg viewBox="0 0 520 150" role="img" aria-label="Stock movement volume through the week"><path class="chart-grid" d="M0 30H520M0 75H520M0 120H520"/><path class="chart-area" d="M0 119 C40 113 55 91 91 99 S138 80 175 88 S214 54 250 67 S290 36 326 51 S365 68 405 38 S452 41 520 13 V150H0Z"/><path class="chart-line" d="M0 119 C40 113 55 91 91 99 S138 80 175 88 S214 54 250 67 S290 36 326 51 S365 68 405 38 S452 41 520 13"/><circle cx="520" cy="13" r="5"/></svg><div class="chart-labels"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div></div></div><div class="transactions-card"><div class="card-heading"><span class="dash-kicker">Recent movements</span><a href="#features">View all</a></div><div class="transaction"><span class="transaction-icon">IN</span><span><b>Basmati Rice (5kg)</b><small>Inbound · PO-2026-081</small></span><strong>+120</strong></div><div class="transaction"><span class="transaction-icon peach">OUT</span><span><b>Sunflower Oil (1L)</b><small>Outbound · SO-2026-114</small></span><strong>-35</strong></div><div class="transaction"><span class="transaction-icon blue">ADJ</span><span><b>Detergent (2kg)</b><small>Adjustment · Damaged</small></span><strong>-4</strong></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-scroll" aria-hidden="true"><span>Scroll to see the system</span><i></i></div>
+      </section>
 
-  <!-- Typography: Plus Jakarta Sans & JetBrains Mono (Awwwards-Tier Spec) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+      <section id="about" class="value-section section-shell" data-section>
+        <div class="container"><div class="section-intro reveal"><h2>Clear inventory records across your store</h2><p>Less time chasing spreadsheets. More time knowing exact stock levels, open supplier orders, and reorder priorities.</p></div><div class="value-grid"><article class="value-card reveal"><div class="icon-disc green"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg></div><h3>Stay organized</h3><p>Keep your products, SKUs, categories, pricing, and supplier records structured in one catalog.</p><a href="#features" class="card-link">See the details <span>↗</span></a></article><article class="value-card reveal reveal-delay-1"><div class="icon-disc cream"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M5 5l14 14M19 5 5 19"/></svg></div><h3>Stay in control</h3><p>Monitor minimum and maximum thresholds, spot out-of-stock items first, and create purchase orders in one click.</p><a href="#features" class="card-link">See the details <span>↗</span></a></article><article class="value-card reveal reveal-delay-2"><div class="icon-disc blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h17M8 15l3-4 3 2 5-7"/></svg></div><h3>Understand your stock</h3><p>Review live category valuation, sales revenue, movement totals, and supplier tier summaries whenever you need them.</p><a href="#features" class="card-link">See the details <span>↗</span></a></article></div></div>
+      </section>
 
-  <!-- Core Enterprise ERP Stylesheet Hierarchy -->
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/pages/dashboard.css">
-  <link rel="stylesheet" href="css/pages/products.css">
-  <link rel="stylesheet" href="css/pages/inventory.css">
-  <link rel="stylesheet" href="css/pages/movements.css">
-  <link rel="stylesheet" href="css/pages/suppliers.css">
-  <link rel="stylesheet" href="css/pages/reports.css">
-  <link rel="stylesheet" href="css/pages/settings.css">
-</head>
-<body class="antialiased">
-  <!-- Subtle Ambient Glow Mesh -->
-  <div class="ambient-glow" aria-hidden="true"></div>
+      <section id="features" class="features-section section-shell" data-section>
+        <div class="container"><div class="section-intro split-intro reveal"><div><p class="eyebrow">Connected retail operations</p><h2>Six tools working off one inventory ledger</h2></div><p>StockFlow connects your catalog, stock movements, purchase orders, sales billing, suppliers, and reports.</p></div><div class="feature-grid"><article class="feature-card feature-large reveal"><div class="feature-top"><span class="feature-index">Catalog</span><span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16v13H4zM4 7l3-4h10l3 4M9 12h6"/></svg></span></div><h3>Inventory management</h3><p>Manage product details, SKUs, categories, min/max thresholds, search, and pagination from one view.</p><div class="inventory-bars" data-ui><span style="--bar:82%"><i>Pantry</i><b>82%</b></span><span style="--bar:64%"><i>Household</i><b>64%</b></span><span style="--bar:46%"><i>Personal care</i><b>46%</b></span></div></article><article class="feature-card reveal"><div class="feature-top"><span class="feature-index">Ledger</span><span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M10 7h7v7"/></svg></span></div><h3>Stock movements</h3><p>Record inbound deliveries, outbound dispatches, reasoned adjustments, and SKU-to-SKU transfers.</p><div class="receipt-line" data-ui><span>Inbound logged</span><strong>+140 units</strong></div><div class="receipt-line muted" data-ui><span>Outbound logged</span><strong>-58 units</strong></div></article><article class="feature-card reveal reveal-delay-1"><div class="feature-top"><span class="feature-index">Restock</span><span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 4.6 2.9 18a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 4.6a2 2 0 0 0-3.4 0z"/></svg></span></div><h3>Alerts &amp; purchase orders</h3><p>See out-of-stock SKUs first, create supplier purchase orders, and receive stock directly into the ledger.</p><div class="alert-row" data-ui><span class="alert-pulse"></span><span>7 items need attention</span><b>Restock</b></div></article><article class="feature-card reveal reveal-delay-1"><div class="feature-top"><span class="feature-index">Billing</span><span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 9h8M8 13h5M8 17h4"/></svg></span></div><h3>Sales invoices &amp; CSV</h3><p>Create customer sales invoices with live stock checks and atomic deduction, plus bulk CSV import and export.</p><div class="supplier-chips" data-ui><span>Invoices</span><span>Products CSV</span><span>Movements</span></div></article><article class="feature-card feature-wide reveal"><div class="feature-top"><span class="feature-index">Partners</span><span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 19v-2a4 4 0 0 0-8 0v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span></div><div class="feature-wide-content"><div><h3>Supplier management</h3><p>Keep supplier codes, contact details, tiers, lead times, ratings, and linked SKU counts in one directory.</p></div><div class="supplier-list" data-ui><div><span class="avatar mini">FD</span><b>Fresh Direct</b><small>Tier A · 12 linked SKUs</small></div><div><span class="avatar mini orange">GM</span><b>Green Market</b><small>Tier B · 8 linked SKUs</small></div></div></div></article><article class="feature-card feature-report reveal reveal-delay-1"><div class="feature-top"><span class="feature-index">Insights</span><span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span></div><h3>Inventory &amp; sales reports</h3><p>Review stock valuation by category, completed sales revenue, movement totals by date range, and supplier tiers.</p><div class="report-ring" data-ui><span>100%</span><small>Live data</small></div></article></div></div>
+      </section>
 
-  <!-- Mobile Sidebar Backdrop Overlay -->
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+      <section id="how-it-works" class="workflow-section section-shell" data-section>
+        <div class="container"><div class="section-intro reveal"><h2>From daily stock checks to fulfilled orders</h2></div><div class="workflow-line"><article class="step reveal"><span class="step-number">01</span><div class="step-rule"></div><h3>Add your products</h3><p>Organize SKUs, categories, pricing, and stock thresholds in one place.</p></article><article class="step reveal reveal-delay-1"><span class="step-number">02</span><div class="step-rule"></div><h3>Record movements &amp; orders</h3><p>Log inbound receipts, supplier purchase orders, customer sales invoices, adjustments, and transfers.</p></article><article class="step reveal reveal-delay-2"><span class="step-number">03</span><div class="step-rule"></div><h3>Monitor alerts &amp; reports</h3><p>Act on out-of-stock alerts early and inspect category valuation, sales, and movement summaries.</p></article></div></div>
+      </section>
 
-  <!-- Obsidian Titanium Sidebar (Direct child of body to guarantee stacking context above overlay) -->
-  <aside class="app-sidebar" id="sidebar-container" aria-label="Primary Navigation"></aside>
+      <section class="showcase-section section-shell" data-section>
+        <div class="container"><div class="showcase-copy reveal"><h2>Designed around the way your inventory works</h2><p>Find what you need without learning a complicated system. Product details, stock thresholds, and supplier context stay close at hand.</p><a class="text-link" href="#get-started">Get started with StockFlow <span aria-hidden="true">↗</span></a></div><div class="table-window reveal reveal-delay" data-ui><div class="table-toolbar"><div><span class="dash-kicker">Inventory</span><strong>All products <small>248</small></strong></div><div class="table-actions"><span class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg> <span>Search products or SKUs</span></span><span class="filter-button">Filter <b>⌄</b></span></div></div><div class="product-table"><div class="table-row table-head"><span>Product</span><span>Category</span><span>Available</span><span>Status</span><span>Minimum threshold</span></div><div class="table-row"><span class="product-name"><i class="product-thumb pink"></i><b>Classic basmati rice</b></span><span>Grains &amp; Rice</span><span>42 units</span><span class="pill good">In stock</span><span>Min 20 units</span></div><div class="table-row"><span class="product-name"><i class="product-thumb yellow"></i><b>Dish wash liquid</b></span><span>Home Care</span><span>08 units</span><span class="pill low">Low stock</span><span>Min 15 units</span></div><div class="table-row"><span class="product-name"><i class="product-thumb green-thumb"></i><b>Green tea bags</b></span><span>Beverages</span><span>64 units</span><span class="pill good">In stock</span><span>Min 25 units</span></div><div class="table-row"><span class="product-name"><i class="product-thumb blue-thumb"></i><b>Hand soap refill</b></span><span>Personal Care</span><span>03 units</span><span class="pill low">Low stock</span><span>Min 15 units</span></div></div><div class="table-foot"><span>Showing 4 of 248 products</span><span>Page 1 of 17</span></div></div></div>
+      </section>
 
-  <!-- App Shell Layout -->
-  <div class="app-container">
-    <!-- Main Content Application Wrapper -->
-    <div class="app-wrapper">
-      <!-- Floating Glass Island Top Navigation Bar -->
-      <header class="app-topbar-wrapper">
-        <div class="app-topbar" id="topbar-container"></div>
-      </header>
+      <section id="get-started" class="closing-section section-shell" data-section>
+        <div class="container closing-inner reveal"><h2>Make everyday stock<br><em>management simpler.</em></h2><p>Bring your product catalog, purchase orders, sales billing, alerts, and suppliers together with StockFlow.</p><div class="closing-actions"><a class="button button-light" href="login.html">Log in to Workspace <span aria-hidden="true">↗</span></a><a class="button button-register" href="register.html">Register Now <span aria-hidden="true">↗</span></a></div></div>
+      </section>
+    </main>
 
-      <!-- Dynamic Page Content Outlet -->
-      <main class="app-main-content" id="main-content" role="main">
-        <!-- Initial view will be rendered automatically by router -->
-      </main>
-    </div>
-  </div>
-
-  <!-- Universal Application Script (Runs everywhere: file://, localhost, and web servers) -->
-  <script src="js/app.bundle.js"></script>
-</body>
+    <footer class="site-footer">
+      <div class="container footer-top"><div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark"><span></span><span></span><span></span></span><span>StockFlow</span></a><p>Inventory management for the work<br>that keeps a store moving.</p></div><div class="footer-links"><div><span>Navigate</span><a href="#home">Home</a><a href="#features">Features</a><a href="#how-it-works">How It Works</a></div><div><span>Product</span><a href="#about">About StockFlow</a><a href="login.html">Workspace Login</a><a href="register.html">Create Account</a></div></div></div><div class="container footer-bottom"><span>© 2026 StockFlow</span><span>Built for general stores and small retail businesses.</span><a href="#home">Back to top ↑</a></div>
+    </footer>
+  </body>
 </html>
