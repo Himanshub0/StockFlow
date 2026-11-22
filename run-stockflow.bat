@@ -17,6 +17,6 @@ echo Waiting for Flask on port 5000...
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$ready=$false; for($i=0; $i -lt 20; $i++){try{$response=Invoke-WebRequest -UseBasicParsing 'http://127.0.0.1:5000/api/health' -TimeoutSec 1;if($response.StatusCode -eq 200){$ready=$true;break}}catch{};Start-Sleep -Milliseconds 500}; if(-not $ready){Write-Host 'Backend is still starting; opening the app anyway.'}"
 
 echo Opening StockFlow...
-start "" "http://127.0.0.1:5000/login.html"
+start "" "http://127.0.0.1:5000/index.html"
 
 endlocal
