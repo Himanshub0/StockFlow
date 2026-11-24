@@ -17,3 +17,244 @@
 .terms-wrap.has-error .terms input[type=checkbox]{box-shadow:0 0 0 3px rgba(170,87,70,.16)}
 @media(max-width:600px){.field input:not([type=checkbox]),.field select{font-size:16px}}
 :focus-visible{outline:3px solid var(--green);outline-offset:2px}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   DARK MODE TOKENS & OVERRIDES (Synchronized with app.css and style.css)
+   ══════════════════════════════════════════════════════════════════════════════ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111a15;
+  --wash: #111a15;
+  --paper: #1a271f;
+  --ink: #e8efe9;
+  --muted: #a4b4a9;
+  --line: #314338;
+  --green: #8ebf9d;
+  --deep: #0d1711;
+  --lime: #d8f06e;
+  --danger: #e28c82;
+  --shadow: 0 28px 90px rgba(0, 0, 0, .45);
+}
+
+:root[data-theme="dark"] html {
+  background: var(--bg);
+}
+
+:root[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* Shell Backgrounds in Dark Mode */
+:root[data-theme="dark"] .register-shell {
+  background: radial-gradient(circle at 86% 12%, rgba(216, 240, 110, .08), transparent 24rem),
+              linear-gradient(135deg, #111a15 0%, #0d1711 100%);
+}
+
+:root[data-theme="dark"] .login-shell {
+  background: radial-gradient(circle at 18% 12%, rgba(216, 240, 110, .08), transparent 25rem),
+              linear-gradient(135deg, #111a15 0%, #0d1711 100%);
+}
+
+/* Card Styling in Dark Mode */
+:root[data-theme="dark"] .register-card,
+:root[data-theme="dark"] .login-card {
+  background: rgba(26, 39, 31, .88);
+  border-color: rgba(49, 67, 56, .7);
+  box-shadow: var(--shadow);
+}
+
+/* Workspace Preview Box */
+:root[data-theme="dark"] .workspace-preview {
+  background: rgba(21, 32, 25, .85);
+  border-color: var(--line);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, .3);
+}
+
+:root[data-theme="dark"] .preview-stats span {
+  background: #16241b;
+  border-color: var(--line);
+}
+
+:root[data-theme="dark"] .preview-stats small {
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] .preview-stats strong {
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] .preview-line i {
+  background: #2a4533;
+}
+:root[data-theme="dark"] .preview-line i:nth-child(4) {
+  background: #426e50;
+}
+:root[data-theme="dark"] .preview-line i:nth-child(6) {
+  background: var(--green);
+}
+:root[data-theme="dark"] .preview-line i:nth-child(7) {
+  background: var(--lime);
+}
+
+/* Form Fields */
+:root[data-theme="dark"] .field {
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] .field input,
+:root[data-theme="dark"] .field select {
+  background: #142018;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] .field input::placeholder {
+  color: #617367;
+}
+
+:root[data-theme="dark"] .field input:focus,
+:root[data-theme="dark"] .field select:focus {
+  background: #18271e;
+  border-color: var(--green);
+  box-shadow: 0 0 0 4px rgba(142, 191, 157, .15);
+}
+
+:root[data-theme="dark"] .pw-toggle {
+  background: #18271e;
+  border-color: var(--line);
+  color: var(--green);
+}
+
+:root[data-theme="dark"] .pw-toggle:hover {
+  background: #233429;
+  color: var(--lime);
+}
+
+:root[data-theme="dark"] .back-link {
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] .back-link:hover {
+  color: var(--lime);
+}
+
+:root[data-theme="dark"] .intro-copy,
+:root[data-theme="dark"] .login-copy {
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] .signal-list {
+  border-top-color: var(--line);
+  color: var(--green);
+}
+
+:root[data-theme="dark"] .signal-list b {
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] .account-switch {
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] .account-switch a {
+  color: var(--lime);
+}
+
+:root[data-theme="dark"] .form-note {
+  color: #6a7c71;
+}
+
+:root[data-theme="dark"] .form-message[data-state=error] {
+  background: #3c1917;
+  color: var(--danger);
+  border: 1px solid #5d2724;
+}
+
+:root[data-theme="dark"] .form-message[data-state=success] {
+  background: #1b3321;
+  color: #9fd893;
+  border: 1px solid #2d4f36;
+}
+
+:root[data-theme="dark"] .step-mark span {
+  color: var(--line);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   FLOATING CORNER THEME TOGGLE (Bottom-Right Corner)
+   ══════════════════════════════════════════════════════════════════════════════ */
+.theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid rgba(228, 232, 228, .85);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, .88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--ink);
+  box-shadow: 0 8px 24px rgba(22, 63, 47, .12), 0 2px 6px rgba(22, 63, 47, .06);
+  cursor: pointer;
+  transition: transform .2s cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color .2s ease,
+              background .2s ease,
+              box-shadow .2s ease,
+              color .2s ease;
+}
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.theme-toggle:hover {
+  border-color: var(--green);
+  background: #ffffff;
+  color: var(--green);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(22, 63, 47, .18), 0 3px 8px rgba(22, 63, 47, .08);
+}
+.theme-toggle:hover svg {
+  transform: rotate(20deg);
+}
+.theme-toggle:active {
+  transform: translateY(0) scale(0.96);
+}
+
+:root[data-theme="dark"] .theme-toggle {
+  background: rgba(26, 39, 31, .85);
+  border-color: rgba(49, 67, 56, .8);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .45), 0 2px 6px rgba(0, 0, 0, .3);
+  color: var(--ink);
+}
+:root[data-theme="dark"] .theme-toggle:hover {
+  background: #1e3025;
+  color: var(--lime);
+  border-color: var(--green);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .55);
+}
+
+@media (max-width: 640px) {
+  .theme-toggle {
+    bottom: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+  .theme-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+}

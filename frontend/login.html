@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="register.css">
     <link rel="stylesheet" href="login.css">
+    <script>document.documentElement.dataset.theme = localStorage.getItem('stockflow-theme') || 'light';</script>
     <script src="login.js" defer></script>
   </head>
   <body>
@@ -39,5 +40,12 @@
         <p class="account-switch">New to StockFlow? <a href="register.html">Register now <span aria-hidden="true">↗</span></a></p>
       </section>
     </main>
+
+    <!-- Floating Corner Theme Toggle (Bottom-Right Corner) -->
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.6 15.7A8.5 8.5 0 0 1 8.3 3.4 8.5 8.5 0 1 0 20.6 15.7Z" />
+      </svg>
+    </button>
   </body>
 </html>

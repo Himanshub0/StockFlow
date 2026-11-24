@@ -92,4 +92,40 @@
       window.clearTimeout(timeout);
     }
   });
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     THEME MANAGEMENT — Dark/Light Mode Sync with app.html & index.html
+     ══════════════════════════════════════════════════════════════════════════ */
+  const themeToggle = document.querySelector('#theme-toggle');
+  const SUN_PATH = 'M12 3v2m0 14v2m9-9h-2M5 12H3m15.4-6.4-1.4 1.4M7 17l-1.4 1.4m0-12.8L7 7m10 10 1.4 1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z';
+  const MOON_PATH = 'M20.6 15.7A8.5 8.5 0 0 1 8.3 3.4 8.5 8.5 0 1 0 20.6 15.7Z';
+
+  const syncThemeUI = (theme) => {
+    const isDark = theme === 'dark';
+    const targetPath = isDark ? SUN_PATH : MOON_PATH;
+    const nextLabel = `Switch to ${isDark ? 'light' : 'dark'} mode`;
+
+    if (themeToggle) {
+      themeToggle.setAttribute('aria-label', nextLabel);
+      themeToggle.setAttribute('title', nextLabel);
+      const pathEl = themeToggle.querySelector('path');
+      if (pathEl) pathEl.setAttribute('d', targetPath);
+    }
+  };
+
+  const toggleTheme = () => {
+    const current = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try {
+      localStorage.setItem('stockflow-theme', next);
+    } catch (_) {}
+    syncThemeUI(next);
+  };
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', toggleTheme);
+  }
+
+  syncThemeUI(document.documentElement.dataset.theme || 'light');
 })();
